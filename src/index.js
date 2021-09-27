@@ -25,12 +25,15 @@ app.use(helmet())
 app.use(cors())
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
-app.use(express.static(path.join(__dirname,'public')));
+// app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 //routes
 app.use("/",require('./routes/routes'));
 
-
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+});
 app.listen(PORT,(req,res)=>{
     console.log("Port opened: ",PORT)
 })
