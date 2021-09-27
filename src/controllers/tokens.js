@@ -4,7 +4,7 @@ module.exports = {
     sign : (values)=>{
         let token = jwt.sign({
             data: JSON.stringify(values)
-        }, 'secret', { expiresIn: '10s' }, { algorithm: 'HS256' });
+        }, 'secret', { expiresIn: '1h' }, { algorithm: 'HS256' });
         return token
     },
     verify: (values)=>{

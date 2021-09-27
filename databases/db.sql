@@ -3,10 +3,10 @@ CREATE DATABASE shop;
 USE shop;
 
 CREATE TABLE users(
-    id INT(11) NOT NULL,
+    id_user INT(11) NOT NULL,
     username VARCHAR(16) NOT NULL,
     password VARCHAR(60) NOT NULL,
-    fullname VARCHAR(100) NOT NULL
+    perfil VARCHAR(100) NOT NULL
 );
 
 ALTER TABLE users
@@ -19,11 +19,8 @@ ALTER TABLE users ADD email VARCHAR(16) NOT NULL;
 ALTER TABLE users ADD phone VARCHAR(16) NOT NULL;
 
 
--- DESCRIBE users;
-
-
 CREATE TABLE files(
-    id_image INT(11) NOT NULL,
+    id_file INT(11) NOT NULL,
     filename VARCHAR(16) NOT NULL,
     enconding  VARCHAR(16) NOT NULL,
     mimetype VARCHAR(16) NOT NULL,

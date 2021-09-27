@@ -1,0 +1,45 @@
+.modal{
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.418);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 11;
+    
+    .content-modal{
+        width: 30rem;
+        height: 24rem;
+        background-color: white;
+        padding: 2rem;
+        border-radius: .5rem;
+        .content-data-modal{
+            overflow-y: scroll;
+            height: 100%;
+        }
+    }
+    &.active{
+        display: flex;
+        .content-modal{
+            animation: .5s downModal forwards;
+        }
+    }
+    @keyframes downModal {
+        0%{
+            transform: translateY(-100vh);
+        }
+        100%{
+            transform: translateY(0);
+        }
+    }
+    strong{
+        margin-bottom: .5rem;
+        display: block;
+    }
+    p{
+        margin-bottom: .5rem;
+        font-size: .8rem;
+    }
+}

@@ -62,7 +62,7 @@ router.post("/login",commands.chunkValidlogin, async (req,res)=>{
 })
 router.post("/valid-login",async (req,res)=>{
     let { token } = req.body
-    
+    console.log(token)
     if(token == null){
         res.send({token:false })
     }else{

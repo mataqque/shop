@@ -1,0 +1,444 @@
+.inicio{
+    background-color: #f7f7f7;
+    .container{
+        position: relative;
+    }
+    .slider-main{
+        width: 100%;
+        height: 44rem;
+        position: relative;
+        background-color: black;
+        .container{
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-slider{
+            width: 36rem;
+            // background: rgba(0, 0, 0, 0.562);
+            margin-top: auto;
+            margin-bottom: auto;
+            position: relative;
+            display: block;
+            border-radius: .8rem;
+            padding:2rem;
+            padding-left: 1.8rem;
+            padding-right: 1.8rem;
+            padding-bottom: 2.5rem;
+            
+            .title-card{
+                font-family: "Vermin-Vibes-V";
+                background: linear-gradient(94.5deg, #DB27BC 0.2%, #E62A1E 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                text-align: center;
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+                @media(min-width:1400px){
+                    font-size: 3rem;
+                }
+            }
+            .contain-description{
+                margin-bottom: 2rem;
+            }
+            .description-card{
+                color: white;
+                font-family: "GalanoGrotesque-SemiBold";
+            }
+            .btn-card-dark{
+                padding: .5rem;
+                padding-left: 1.4rem;
+                padding-right: 1.4rem;
+                padding-bottom: 1rem;
+                border-radius: 100rem;
+                border: 1px solid white;
+                font-family: "GalanoGrotesque-SemiBold";
+                color: white;
+                font-size: 1rem;
+                cursor: pointer;
+                background: transparent;
+                transition: .5s;
+            }
+            .btn-card-dark:hover{
+                border-color: transparent;
+                animation: .3s btndark forwards ease-in;
+                @keyframes btndark{
+                    0%{
+                        border: 1px solid white;
+                        background: transparent;
+                    }
+                    100%{
+                        border: 1px solid transparent;
+                    }
+                    100%{
+                        background: linear-gradient(94.5deg, #DB27BC 0.2%, #E62A1E 100%);
+                    }
+                }
+            }
+        }
+        .container-slider{
+            width: 22rem;
+            @media(min-width:1400px){
+                width: 26rem;
+            }
+            .slide.card{
+                padding: 1.5rem;
+                .title-slider{
+                    transition: .5s;
+                    transform: translateX(30px)
+                }
+            }
+            .slick-slide{
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            .slick-dots{
+                display: flex!important;
+                align-items: center;
+                justify-content: center;
+                margin-top: 1rem;
+                li{
+                    button{
+                        font-size: 0;
+                        height: .5rem;
+                        width: .5rem;
+                        border-radius: 100%;
+                        border: 0;
+                        background: white;
+                        margin: 0 .3rem;
+                        cursor: pointer;
+                    }
+                }
+                .slick-active{
+                    button{
+                        background: linear-gradient(94.5deg, #DB27BC 0.2%, #E62A1E 100%);
+                    }
+                }
+            }
+        }
+    }
+    .slide{
+        background: white;
+        border-radius: .4rem;
+        overflow: hidden;
+        padding: 1rem;
+        position: relative;
+    }
+    .slider-img{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        .img{
+            height: auto;
+            object-fit: contain;
+            transition: .5s;
+            width: 67%;
+            height: 11rem;
+            object-fit: contain;
+            @media(min-width:1400px){
+                width: 60%;
+            }
+        }
+        .img:hover{
+            transform: scale(1.04);
+        }
+        .content-icon{
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            z-index: 2;
+            .item{
+                width: 2.2rem;
+                height: 2.2rem;
+                background: rgb(235, 235, 235);
+                margin-bottom: .6rem;
+                border-radius: .3rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transform: translateX(10px);
+                transition: .5s;
+                opacity: 0;
+                // display: none;
+                .icon-mask{
+                    height: 65%;
+                    width: 65%;
+                    transform: scale(.8);
+                    background: #555555;
+                }
+            }
+            .item:hover{
+                background: rgb(241, 241, 241);
+                box-shadow: 0px 0px 10px -2px rgba(0, 0, 0, 0.342);
+                transform: scale(1.03);
+                .icon-mask{
+                    background: linear-gradient(94.5deg, #DB27BC 0.2%, #E62A1E 100%);
+                }
+            }
+        }
+    }
+    .slick-active{
+        .title-slider{
+            animation: 1s moveLeft forwards linear;
+        }
+        @keyframes  moveLeft{
+            0%{
+                transform: translateX(30px);
+            }
+            100%{
+                transform: translateX(0px);
+            }
+        }
+        .content-star{
+            .icon-star:nth-child(1){
+                animation: .5s showStar forwards linear 0s;
+            }
+            .icon-star:nth-child(2){
+                animation: .5s showStar forwards linear .3s;
+            }
+            .icon-star:nth-child(3){
+                animation: .5s showStar forwards linear .4s;
+            }
+            .icon-star:nth-child(4){
+                animation: .5s showStar forwards linear .5s;
+            }
+            .icon-star:nth-child(5){
+                animation: .5s showStar forwards linear .6s;
+            }
+            @keyframes showStar{
+                0%{
+                    background-color: white;
+                }
+                100%{
+                    background-color: rgb(255, 217, 0);
+                }
+            }
+        }
+    }
+    .slide.card:hover{
+        .content-icon{
+            .item{
+                @keyframes moveLeftIcon{
+                    0%{
+                        // display: flex!important;
+                        opacity: 0;
+                        transform: translateX(10px);
+                    }
+                    40%{
+                        opacity: 1;
+                        
+                    }
+                    100%{
+                        // display: flex!important;
+                        transform: translateX(0);
+                        opacity: 1;
+                    }
+                }
+            }
+            .item-1{
+                animation: .6s moveLeftIcon .1s forwards;
+            }
+            .item-2{
+                animation: .6s moveLeftIcon .2s forwards;
+            }
+            .item-3{
+                animation: .6s moveLeftIcon .3s forwards;
+            }
+        }
+    }
+    .title-slider{
+        font-family: "GalanoGrotesque-SemiBold";
+        color: var(--primary);
+        font-size: .9rem;
+        line-height: 1.6rem;
+        @media(min-width:1400px){
+            font-size: 1.1rem;
+        }
+    }
+    .content-star{
+        display: flex;
+        margin-bottom: .5rem;
+        margin-top: .5rem;
+        .icon-star{
+            margin-right: .5rem;
+            width: .9rem;
+            height: .9rem;
+            background: white;
+        }
+    }
+    .product-price{
+        font-family: "GalanoGrotesque-SemiBold";
+        color: var(--primary);
+        font-size: .9rem;
+        .tachado{
+            font-size: 13px;
+            color: #848486;
+            font-weight: 600;
+            margin-left: 5px;
+            text-decoration: line-through;
+        }
+    }
+    .btn-card{
+        width: 100%;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(94.5deg, #DB27BC 0.2%, #E62A1E 100%);
+        border-radius: .4rem;
+        font-family: "GalanoGrotesque-SemiBold";
+        padding-bottom: .5rem;
+        color: white;
+        margin-top: 1rem;
+        cursor: pointer;
+    }
+    .paragraph{
+        font-family: "GalanoGrotesque-SemiBold";
+        color: #515151;
+        font-size: 0.8rem;
+        line-height: 1.3rem;
+        margin-top: .7rem;
+        margin-bottom: 1rem;
+        @media(min-width:1400px){
+            font-size: .9rem;
+        }
+    }
+    .slider-main::before{
+        content: "";
+        // background: #013636ea;
+        position: absolute;
+        background-image: url("../../assets/images/best-gaming.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        opacity: 0.4;
+        filter: blur(1px);
+    }
+    .contain-product{
+        width: 100%;
+        --heightProduct:4rem;
+        --heightItem:8rem;
+        --widthItem:10rem;
+        .w-100{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 8rem;
+        }
+        .categoria{
+            height: 11rem;
+            position: relative;
+            top: -5rem;
+            display: flex;
+            background: white;
+            border-radius: .6rem;
+            margin: auto;
+            align-items: center;
+            justify-content: space-around;
+            box-shadow: 0px 5px 21px -17px #00000094;
+            padding: 0rem 1rem;
+            .item_categoria{
+                width: var(--widthItem);
+                height: var(--heightItem);
+                background: white;
+                border-radius: 0.4rem;
+                position: relative;
+                margin: 0rem 1rem;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                padding: 0 .5rem;
+                padding-top: .9rem;
+                .icon-mask{
+                    width: 78%;
+                    height: 48%;
+                    background-color: var(--secondary);
+                }
+                .icon-componentes{
+                    width: 27%;
+                    height: 48%;
+                }
+                .icon-movil{
+                    width: 30%;
+                    height: 48%;
+                }
+                .title{
+                    text-align: center;
+                    color:var(--primary);
+                    line-height: 1rem;
+                    font-size: 1rem;
+                }
+            }
+            .item_categoria::after{
+                content: "";
+                display: block;
+                width: 0;
+                height: 0;
+                border-left: 8px solid transparent;
+                border-right: 8px solid transparent;
+                border-bottom: 10px solid white;
+                position: absolute;
+                bottom: -10px;
+                left: 50%;
+                transform: translateX(-50%) rotate(
+                    180deg
+                    ) scale(1);
+            }
+            .item_categoria:hover,.item_categoria.active{
+                transition: 0.3s;
+                background-color: var(--secondary);
+                .icon-mask{
+                    background-color: white;
+                }
+                .title{
+                    color: white;
+                }
+            }
+            .item_categoria:hover:after,.item_categoria.active:after{
+                border-bottom: 10px solid var(--secondary);
+            }
+        }
+
+    }
+    .show_product{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        .slide.card{
+            width: 17rem;
+            box-shadow: 0px 0px 10px -4px rgba(0, 0, 0, 0.322);
+            margin: 0 .5rem;
+            margin-bottom: 2rem;
+            @media(max-width:1400px){
+                width: 13rem;
+            }
+            .title-slider{
+                @media(max-width:1400px){
+                    font-size: .9rem;
+                    line-height: 1rem;
+                }
+            }
+            .paragraph{
+                @media(max-width:1400px){
+                    font-size: 0.8rem;
+                    line-height: 1rem;
+                }
+            }
+        }
+        .content-star{
+            
+        }
+    }
+}
