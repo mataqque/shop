@@ -5,7 +5,7 @@ const cors = require("cors")
 const path = require("path")
 require('dotenv').config();
 const app =  express();
-const PORT = 3000 || process.env.PORT;
+const PORT = process.env.PORT || 3000;
 require('./lib/passport');
 const passport = require('passport')
 var jwt = require('jsonwebtoken');
