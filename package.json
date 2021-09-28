@@ -8,6 +8,7 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "express-favicon": "^2.0.1",
     "express-validate": "^0.0.8",
     "express-validator": "^6.12.1",
     "helmet": "^4.6.0",
@@ -22,7 +23,6 @@
     "start": "node src/index.js",
     "build": "cd client && npm install && npm run build",
     "dev": "nodemon src/index.js"
-    
   },
   "devDependencies": {
     "nodemon": "^2.0.12"

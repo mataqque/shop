@@ -3,6 +3,7 @@ const helmet = require("helmet");
 const morgan =  require("morgan");
 const cors = require("cors")
 const path = require("path")
+const favicon = require('express-favicon');
 require('dotenv').config();
 const app =  express();
 const PORT = process.env.PORT || 3000;
@@ -19,19 +20,20 @@ jwt.verify(token, 'secret', function(err,decoded) {
 });
 
 // settings
-app.use(passport.initialize());
+app.use(favicon(path.join(__dirname,'../client/build/favicon.ico')));
+app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.use(morgan("dev"))
 app.use(helmet())
 app.use(cors())
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
 // app.use(express.static(path.join(__dirname,'public')));
-app.use(express.static(path.resolve(__dirname, '../client/build')));
+app.use(passport.initialize());
 
 //routes
 app.use("/",require('./routes/routes'));
 
-app.get('*', (req, res) => {
+app.get('/*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });
 app.listen(PORT,(req,res)=>{
