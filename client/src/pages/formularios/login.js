@@ -14,11 +14,12 @@ const iconLoader = require("../../assets/icons/lottie/loader.json");
 class Login extends Component {
     constructor(props){
         super(props)
-        // this.submitForm = this.submitForm.bind(this)
+        // this.sendAgain = this.sendAgain.bind(this)
         this.state = {
-            
             sendForm:"Enviar",
             sendIndex:1,
+            sendAgain:false,
+            messageError:null,
             properties:{
                 loop:true,
                 autoplay: true,
@@ -31,12 +32,12 @@ class Login extends Component {
                 loop:true,
                 autoplay: true,
                 animationData: iconLoader,
+                speed:1.5,
                 rendererSettings: {
                     preserveAspectRatio: "xMidYMid slice"
                 },
             }
         }
-        console.log('witdh:',this.props)
     }
     initialValues = {
         email: "",
@@ -44,21 +45,34 @@ class Login extends Component {
         remember: true,
     }
     componentDidMount(){
-        axios.post("http://localhost:3000/valid-login",{token:localStorage.getItem('token')}).then(this.response);
+        axios.post("/valid-login",{token:localStorage.getItem('token')}).then(this.IsLoged);
     }
     submitForm = (values, { setSubmitting, resetForm }) =>{
-        axios.post("http://localhost:3000/login",values).then(this.response);
+        this.sendAgain()
+        axios.post("/login",values).then(this.response);
     }
     response = (response) =>{
-        if(response.data.type == 'token'){
+        console.log("data",response.data)
+        if(response.data.type){
             localStorage.setItem("token",response.data.token)
             this.props.history.push("/dashboard")
         }
-        if(response.data.token == true){
+        if(response.data.status == 401){
+            this.setState({messageError:'Email or password invalid'})
+        }
+    }
+    IsLoged=(res)=>{
+        if(res.data.token == true){
             this.props.history.push("/dashboard")
         }
     }
-    
+    sendAgain = () =>{
+        this.setState({sendAgain:true})
+        let returnTry = setInterval(() => {
+            this.setState({sendAgain:false})
+            clearInterval(returnTry)
+        }, 2000);
+    }
     render() {
     return (
         <main className="login">
@@ -69,7 +83,7 @@ class Login extends Component {
                 <FormContainer initialValues={this.initialValues} validationSchema={FAQContactValidatonSchema} onSubmit={this.submitForm}>
                     {
                         form => {const {errors,handleSubmit, isSubmitting} = form;
-                        console.log(isSubmitting)
+                        
                         return(
                             
                         <form onSubmit={handleSubmit} className="formulario">
@@ -88,11 +102,12 @@ class Login extends Component {
                             <div className='content-response'>
                                 <span className='c-red message-error'>{}</span>
                                 {
-                                    isSubmitting ? <Icon properties={this.state.propertiesLoader} class={'lottie_loader'}></Icon> : null
+                                    this.state.sendAgain ? <Icon properties={this.state.propertiesLoader} class={'lottie_loader'}></Icon> 
+                                    : <span className={`error ${this.state.messageError != null ? 'show' : ''}`}>{this.state.messageError}</span>
                                 }
                                 
                             </div>
-                            <button type="submit" className={`btn-submit ${isSubmitting ? 'disabled':''}`} disabled={isSubmitting}>
+                            <button type="submit" className={`btn-submit ${this.state.sendAgain ? 'disabled':''}`} disabled={this.state.sendAgain} >
                                 {this.state.sendForm}
                             </button>
                             <Link to={"/registro"}>

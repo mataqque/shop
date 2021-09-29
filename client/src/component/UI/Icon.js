@@ -7,6 +7,7 @@ export default class Icon extends Component {
         this.state = {
             isStopped: false,
             isPaused: false,
+            speed:this.props.properties.speed,
             defaultOptions:{
                 loop: this.props.properties.loop,
                 autoplay: this.props.properties.autoplay,
@@ -31,6 +32,7 @@ export default class Icon extends Component {
                     options={this.state.defaultOptions}
                     isStopped={this.state.isStopped}
                     isPaused={this.state.isPaused}
+                    speed={this.state.speed}
                 >
                 </Lottie>
             </div>

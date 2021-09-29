@@ -9,11 +9,14 @@ module.exports = {
     },
     verify: (values)=>{
         try{
-            return jwt.verify(values, 'secret', { algorithm: 'HS256' });
+            let desencrypted = jwt.verify(values, 'secret', { algorithm: 'HS256' });
+            return desencrypted
+
         }catch(err){
-            if(err instanceof jwt.TokenExpiredError) {
-                return false
-            }
+            return err
         }
+    },
+    parse(token){
+        JSON.parse(JSON.parse(jwt.verify(values, 'secret', { algorithm: 'HS256' })))
     }
 }

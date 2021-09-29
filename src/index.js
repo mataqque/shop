@@ -23,19 +23,38 @@ jwt.verify(token, 'secret', function(err,decoded) {
 app.use(favicon(path.join(__dirname,'../client/build/favicon.ico')));
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.use(morgan("dev"))
-app.use(helmet())
-app.use(cors())
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+        defaultSrc: ["'self'"], 
+        scriptSrc: ["'self'", 'ourAuth0domain.us.auth0.com'],
+        styleSrc: ["'self'", 'https://fonts.googleapis.com', "'unsafe-inline'"],
+        imgSrc: ["'self'", 'https://ourAuth0domain.us.auth0.com', 'data:'],
+        connectSrc: ["'self'", 'https://ourAuth0domain.us.auth0.com/oauth/token'],
+        fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+        objectSrc: ["'self'"],
+        mediaSrc: ["'self'"],
+        frameSrc: ["'self'"]
+        },
+        reportOnly: true
+    }
+}));
+app.disable("x-powered-by");
+
+app.use(cors());
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
-// app.use(express.static(path.join(__dirname,'public')));
 app.use(passport.initialize());
-
-//routes
 app.use("/",require('./routes/routes'));
 
+// app.get('/registro', (req, res) => {
+//     res.status(401)
+//     // res.sendFile(path.join(__dirname, '../client/build/index.html'));
+// });
 app.get('/*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+    res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
+
 app.listen(PORT,(req,res)=>{
     console.log("Port opened: ",PORT)
 })

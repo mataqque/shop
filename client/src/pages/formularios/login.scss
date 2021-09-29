@@ -158,9 +158,19 @@
                 }
                 &.disabled{
                     opacity: .5;
+                    cursor: default;
                 }
             }
             .content-response{
+                .error{
+                    &.show{
+                        position: relative;
+                        font-size: .7rem;
+                        top: -.8rem;
+                        color: red;
+                    }
+                }
+                
                 svg{
                     path[stroke-linecap=round]{
                         stroke: var(--primary);

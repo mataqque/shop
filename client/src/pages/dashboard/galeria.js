@@ -5,7 +5,7 @@ export default class Galeria extends Component {
     onChange = (data) =>{
         var formData = new FormData();
         formData.append("archivo",data.target.files[0]);
-        axios.post('http://localhost:3000/upload', formData, {
+        axios.post('/upload', formData, {
             headers: {
             'Content-Type': 'multipart/form-data'
             }

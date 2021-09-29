@@ -35,7 +35,7 @@ class LoginRegister extends Component {
         repassword:""
     }
     submitForm(values){
-        axios.post("http://localhost:3000/registro",values).then(function (response) {
+        axios.post("/registro",values).then(function (response) {
             console.log(JSON.parse(response.data.data))
         });
     }

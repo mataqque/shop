@@ -8,11 +8,13 @@ const passport = require('passport');
 const  LocalStrategy = require('passport-local').Strategy;
 const helpers = require("../lib/helpers");
 const bcrypt = require('bcryptjs');
-const { sign, verify } = require('../controllers/tokens');
+const Manage_token = require('../controllers/tokens');
 const multer  = require('multer');
 const path = require('path');
 const fs = require('fs')
 const pathDestination = '../public/images';
+const constantAnswer = require("../commands/constantAnswer.js");
+
 const storage = multer.diskStorage({
     destination: async function (req, file, cb) {
         if(fs.existsSync(path.join(__dirname,pathDestination))){
@@ -31,29 +33,32 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 router.post("/login",commands.chunkValidlogin, async (req,res)=>{
-    const errors = validationResult(req);
+    const errors = validationResult(req); 
     const {email, password } = req.body;
+
     if(!errors.isEmpty()){
-        // console.log('enter')
         res.send(errors)
     }else{
-        await pool.query(`SELECT * FROM users WHERE ( email = '${email}');`,async (err, results, field)=>{
-            if(err){
-                res.send(err)
-            }
-            if(results.length > 0){
-                // let match = helpers.matchPassword(password,results[0].password)
-                console.log("pass:",password,' email:',email)
-                const match = await bcrypt.compare(password, results[0].password);
-                if(match){
-                    let token = sign(JSON.stringify(results[0]))
-                    res.send({type:'token',token:token})
-                }else{
-                    res.send({type:'broken'})
+        await pool.query(`SELECT * FROM users WHERE ( email = ? );`,[email],async (err, results, field)=>{
+            try{
+                if(err){
+                    console.error(err)
+                    res.send(err)
                 }
-            }
-            if(results.length == 0){
-                res.send(results)
+                if(results.length > 0){
+                    const match = await bcrypt.compare(password, results[0].password);
+                    if(match){
+                        let token = await Manage_token.sign(JSON.stringify(results[0]))
+                        res.send({type:true,token:token})
+                    }else{
+                        res.send({type:false,token:null})
+                    }
+                }
+                if(results.length == 0){
+                    res.send({result:constantAnswer.USERNAME_PASSWORD_COMBINATION_ERROR,status:401})
+                }
+            }catch(err){
+                console.error(err)
             }
         })
 
@@ -62,17 +67,23 @@ router.post("/login",commands.chunkValidlogin, async (req,res)=>{
 })
 router.post("/valid-login",async (req,res)=>{
     let { token } = req.body
-    console.log(token)
-    if(token == null){
-        res.send({token:false })
-    }else{
-        if(verify(token) != false){
-            let valid = await helpers.matchPassword('panpan123',JSON.parse(JSON.parse(verify(token).data)).password)
-            res.send({token:valid})
-        }else{ 
-            res.send({token:false})
-        }
+    let verify = await Manage_token.verify(token)
+    
+    if(verify != false){
+        let match = await helpers.matchPassword('panpan123',Manage_token.parse(token).password)
+        res.send({token:match})
     }
+    
+    // if(token == null){
+    //     res.send({token:false })
+    // }else{
+    //     if(verify(token) != false){
+    //         let valid = await helpers.matchPassword('panpan123',JSON.parse(JSON.parse(verify(token).data)).password)
+    //         res.send({token:valid})
+    //     }else{ 
+    //         res.send({token:false})
+    //     }
+    // }
 
     // res.send({token:token,verify:verify(token)})
 });
