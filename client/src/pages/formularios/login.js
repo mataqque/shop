@@ -44,12 +44,9 @@ class Login extends Component {
         password:"",
         remember: true,
     }
-    componentDidMount(){
-        axios.post("/valid-login",{token:localStorage.getItem('token')}).then(this.IsLoged);
-    }
     submitForm = (values, { setSubmitting, resetForm }) =>{
         this.sendAgain()
-        axios.post("/login",values).then(this.response);
+        axios.post("/api/login",values).then(this.response);
     }
     response = (response) =>{
         console.log("data",response.data)
@@ -59,11 +56,6 @@ class Login extends Component {
         }
         if(response.data.status == 401){
             this.setState({messageError:'Email or password invalid'})
-        }
-    }
-    IsLoged=(res)=>{
-        if(res.data.token == true){
-            this.props.history.push("/dashboard")
         }
     }
     sendAgain = () =>{

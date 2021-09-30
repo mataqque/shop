@@ -65,14 +65,15 @@ router.post("/login",commands.chunkValidlogin, async (req,res)=>{
     }
     
 })
-router.post("/valid-login",async (req,res)=>{
+router.post("/checkUser",async (req,res)=>{
     let { token } = req.body
     let verify = await Manage_token.verify(token)
-    
+
     if(verify != false){
         let match = await helpers.matchPassword('panpan123',Manage_token.parse(token).password)
-        res.send({token:match})
+        res.send({token:true})
     }
+    
     
     // if(token == null){
     //     res.send({token:false })
@@ -91,10 +92,6 @@ router.post("/valid-login",async (req,res)=>{
 router.post("/registro",passport.authenticate('register', {
     passReqToCallback:true,
 }))
-
-router.get('/registro',(req,res)=>{
-    res.send("resgistro1")
-})
 
 router.post("/upload",upload.single('archivo'),(req,res)=>{
     console.log(req.file)

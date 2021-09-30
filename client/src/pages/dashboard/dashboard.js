@@ -9,104 +9,27 @@ import './dashboard.scss'
 import Galeria from './galeria';
 import axios from 'axios';
 import { withRouter } from 'react-router';
-
+import { connect } from 'react-redux';
+import { getToken,deleteToken, setToken } from '../../data/userStore';
 class Dashboard extends Component {
     constructor(props){
         super(props)
         this.logOut = this.logOut.bind(this)
         this.state = {
             expanded:'',
-            activeSection:1,
+            activeSection:this.props.activeSection,
             closeSidebar:false,
             component: <Galeria></Galeria>,
-            sectionBoton:[
-                {   
-                    header:'MEDIA',
-                    sections:[
-                        {
-                            icon:"fas fa-photo-video",
-                            title:'Galeria',
-                            index:2,
-                            subSection:[]
-                        }
-                    ]
-                
-                },
-                {   
-                    header:'TEMAS',
-                    sections:[
-                        {
-                            icon:"fas fa-tint",
-                            title:'Colores',
-                            index:3,
-                            subSection:[
-                                {
-                                    icon:"fas fa-circle",
-                                    title:'Colors',
-                                }
-                            ]
-                        }
-                    ]
-                
-                },
-                {   
-                    header:'COMPONENTES',
-                    sections:[
-                    {
-                        icon:"fas fa-images",
-                        title:'Sliders',
-                        index:4,
-                        subSection:[{
-
-                                icon:"fas fa-circle",
-                                title:'Slider Principal',
-                            },
-                            {
-                                icon:"fas fa-circle",
-                                title:'Slider Interiores',
-                            },
-                            {
-                                icon:"fas fa-circle",
-                                title:'Slider Areas comunes',
-                            },
-                        ]
-                    },
-                    {
-                        icon:"fas fa-table",
-                        title:'Form',
-                        index:5,
-                        subSection:[{
-
-                                icon:"fas fa-circle",
-                                title:'Slider Principal',
-                            },
-                            {
-                                icon:"fas fa-circle",
-                                title:'Slider Interiores',
-                            },
-                            {
-                                icon:"fas fa-circle",
-                                title:'Slider Areas comunes',
-                            },
-                        ]
-                    },
-
-                
-                    ]
-                
-                }
-            ]
         }
     }
     componentDidMount(){
         document.querySelector('.navbar').classList.add('none');
-        axios.post("/valid-login",{token:localStorage.getItem('token')}).then(this.response);
-
+        // axios.post("/valid-login",{token:localStorage.getItem('token')}).then(this.response);
     }
     response = (response) =>{
         console.log('response',response.data)
         if(response.data.token != true){
-            this.props.history.push("/login")
+            // this.props.history.push("/login")
         }
     }
     handleChange = (panel) => (event, newExpanded) => {
@@ -131,13 +54,22 @@ class Dashboard extends Component {
                             <div className='brand-dashboard c-white'>
                                 FORMULADASH
                             </div>
+                            <div className='user'>
+                                <div className='content-img'>
+                                    <img className='profile' src={require('../../assets/images/icons/profile.jpg').default} ></img>
+                                </div>
+                                <div className='user-role'>
+                                    <span className='role c-white'>Administrador</span>
+                                    <span className='name c-white'>Flavio Mataqque Pinares</span>
+                                </div>
+                            </div>
                             <div className={`c-sidebar-nav-title sidebar-title ${this.state.activeSection == 1 ? 'active' : ''}`} onClick={()=>{this.changeSection(1)}}>
                                 <i className="fas fa-tachometer-alt"></i>
                                 <span className='span-title'>Escritorio</span>
                             </div>
                             <div className='sidebar'>
                                 {
-                                    this.state.sectionBoton.map((body,index)=>{
+                                    this.props.sectionBoton.map((body,index)=>{
                                         return(
                                             <SectionSidebar 
                                                 key={'Sidebar'+index}
@@ -178,6 +110,7 @@ class Dashboard extends Component {
         )
     }
 }
+
 
 class SectionSidebar extends Component{
     constructor(props){
@@ -237,4 +170,10 @@ class SectionSidebar extends Component{
         )
     }
 }
-export default withRouter(Dashboard)
+const MapStateProps = (state) =>{
+    return({
+        user:state.userStore,
+        sectionBoton:state.dashboardStore.sectionBoton
+    })
+}
+export default withRouter( connect(MapStateProps,{setToken,getToken,deleteToken})(Dashboard))

@@ -10,6 +10,13 @@
         position: relative;
         top: -.1rem;
     }
+    .MuiAccordion-root.Mui-expanded{
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    .MuiAccordion-root.Mui-expanded:first-child{
+        margin-bottom: 0;
+    }
     .MuiAccordionSummary-content,.MuiAccordionSummary-content.Mui-expanded{
         margin: 0;
     }
@@ -27,6 +34,31 @@
     }
     .MuiPaper-elevation1{
         box-shadow: none;
+    }
+    .user{
+        width: 100%;
+        padding: 1rem;
+        display: flex;
+        .profile{
+            width: 5rem;
+            height: 5rem;
+            display: flex;
+        }
+        .user-role{
+            padding-left: 1rem;
+            .role{
+                display: block;
+                font-weight: bold;
+                margin-bottom: .3rem;
+            }
+            .role,.name{
+                font-size: .8rem;
+            }
+            .name{
+                display: block;
+                line-height: .8rem;
+            }
+        }
     }
     .content-dashboard{
         display: flex;

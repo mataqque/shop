@@ -9,15 +9,6 @@ const app =  express();
 const PORT = process.env.PORT || 3000;
 require('./lib/passport');
 const passport = require('passport')
-var jwt = require('jsonwebtoken');
-var token = jwt.sign({
-    data: 'foobar'
-}, 'secret', { expiresIn: '1h' }, { algorithm: 'RS256' });
-// console.log("this.",token)
-
-jwt.verify(token, 'secret', function(err,decoded) {
-    // console.log("this.token",decoded)
-});
 
 // settings
 app.use(favicon(path.join(__dirname,'../client/build/favicon.ico')));
@@ -45,12 +36,8 @@ app.use(cors());
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
 app.use(passport.initialize());
-app.use("/",require('./routes/routes'));
+app.use("/api/",require('./routes/routes'));
 
-// app.get('/registro', (req, res) => {
-//     res.status(401)
-//     // res.sendFile(path.join(__dirname, '../client/build/index.html'));
-// });
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });

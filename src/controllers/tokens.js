@@ -17,6 +17,6 @@ module.exports = {
         }
     },
     parse(token){
-        JSON.parse(JSON.parse(jwt.verify(values, 'secret', { algorithm: 'HS256' })))
+        JSON.parse(JSON.parse(jwt.verify(token, 'secret', { algorithm: 'HS256' })))
     }
 }

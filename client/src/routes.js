@@ -5,6 +5,9 @@ import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
 import Modal from './component/modal/modal'
 import PoliticaPrivacidad from './pages/politicas/politicas-de-privacidad'
+import Protected from './pages/protected/protected'
+import {curremtUser} from './data/userStore'
+import PrivatedRoute from './component/helpers/PrivatedRoute'
 
 class Title extends React.PureComponent{
     render (){
@@ -17,7 +20,6 @@ class Title extends React.PureComponent{
         )
     }
 }
-
 class Routes extends Component {
     constructor(props){
         super(props)
@@ -41,7 +43,8 @@ class Routes extends Component {
                             )
                         })
                     }
-                    <Redirect to="/"/>
+                    <PrivatedRoute exact path='/protected'></PrivatedRoute>
+                    {/* <Redirect to="/"/> */}
                 </Switch>                
             </Router>
         </div>
@@ -50,7 +53,9 @@ class Routes extends Component {
 }
 function mapStateProps(state){
     return {
-        value:state.routesFeatures
+        value:state.routesFeatures,
+        user:state.userStore.currentUser,
     }
 }
-export default connect(mapStateProps,null)(Routes)
+export default connect(mapStateProps,{curremtUser})(Routes)
+
