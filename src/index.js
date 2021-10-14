@@ -12,7 +12,9 @@ const passport = require('passport')
 
 // settings
 app.use(favicon(path.join(__dirname,'../client/build/favicon.ico')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.resolve(__dirname, '../client/build')));
+
 app.use(morgan("dev"))
 app.use(helmet({
     contentSecurityPolicy: {

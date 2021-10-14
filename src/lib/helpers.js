@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
-
+const Manage_token = require('../controllers/tokens');
 const helpers = {};
+const constantAnswer = require("../commands/constantAnswer.js");
+
 
 helpers.encryptPassword = async (password) => {
     const salt = await bcrypt.genSalt(10);
@@ -15,5 +17,9 @@ helpers.matchPassword = async (password, savedPassword) => {
         return err
     }
 };
+
+helpers.verifyUser = async (pool,res,email,password) =>{
+    
+}
 
 module.exports = helpers;

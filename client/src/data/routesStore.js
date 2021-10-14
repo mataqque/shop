@@ -7,6 +7,7 @@ import Dashboard from '../pages/dashboard/dashboard'
 
 const  initialState = {
     activeLinkValue: 0,
+    navShow:true,
     links:[
         {
             index:1,
@@ -47,22 +48,7 @@ const  initialState = {
             title:"Politicas de Privacidad",
             link:"/politicas-de-privacidad",
             show:false
-        },
-        {
-            index:null,
-            title:"Dashboard",
-            link:"/dashboard",
-            component:<Dashboard></Dashboard>,
-            show:false
-        },
-        {
-            index:null,
-            title:"Dashboard",
-            link:"/dashboard/:page",
-            component:<Dashboard></Dashboard>,
-            show:false
-        },
-        
+        },        
     ]
 }
 export const routesFeatures = createSlice({
@@ -71,9 +57,15 @@ export const routesFeatures = createSlice({
     reducers:{
         activeLinks: (state,value)=>{
             state.activeLinkValue = value.payload
-        }
+        },
+        hideNav:(state)=>{
+            state.navShow = false
+        },
+        showNav:(state)=>{
+            state.navShow = true
+        },
     }
 })
 
-export const {activeLinks } = routesFeatures.actions
+export const {activeLinks, hideNav, showNav} = routesFeatures.actions
 export default routesFeatures.reducer

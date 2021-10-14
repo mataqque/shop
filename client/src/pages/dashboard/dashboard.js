@@ -11,6 +11,7 @@ import axios from 'axios';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { getToken,deleteToken, setToken } from '../../data/userStore';
+import MainDash from './mainDash';
 class Dashboard extends Component {
     constructor(props){
         super(props)
@@ -19,32 +20,31 @@ class Dashboard extends Component {
             expanded:'',
             activeSection:this.props.activeSection,
             closeSidebar:false,
-            component: <Galeria></Galeria>,
+            component: null,
         }
     }
-    componentDidMount(){
-        document.querySelector('.navbar').classList.add('none');
-        // axios.post("/valid-login",{token:localStorage.getItem('token')}).then(this.response);
+    // it change section over out Acordion component  
+    changeSection = (active , upComponent) =>{
+        this.setState({expanded:active,activeSection:active,component:upComponent})
     }
-    response = (response) =>{
-        console.log('response',response.data)
-        if(response.data.token != true){
-            // this.props.history.push("/login")
-        }
-    }
+
+    // it reset sidebar main buttons active
     handleChange = (panel) => (event, newExpanded) => {
         this.setState({expanded: newExpanded ? panel : false, activeSection: panel})
     }
-    changeSection = (active) =>{
-        this.setState({expanded:active,activeSection:active})
+
+    // it reset active sidebar main sub-buttons active
+
+    subHandleChangeSection = (active, upComponent) => {
+        this.setState({activeSection:active,component:upComponent})
     }
     logOut(){
-        localStorage.removeItem('token')
+        localStorage.removeItem('token')  
         this.props.history.push("/login")
     }
     render() {
         return (
-            <main className="dashboard">
+            <main className="dashboard" key={'dash'}>
                 <Helmet>
                     <script src="https://kit.fontawesome.com/6611670d58.js" crossorigin="anonymous"></script>
                 </Helmet>
@@ -63,25 +63,28 @@ class Dashboard extends Component {
                                     <span className='name c-white'>Flavio Mataqque Pinares</span>
                                 </div>
                             </div>
-                            <div className={`c-sidebar-nav-title sidebar-title ${this.state.activeSection == 1 ? 'active' : ''}`} onClick={()=>{this.changeSection(1)}}>
-                                <i className="fas fa-tachometer-alt"></i>
-                                <span className='span-title'>Escritorio</span>
-                            </div>
-                            <div className='sidebar'>
-                                {
-                                    this.props.sectionBoton.map((body,index)=>{
-                                        return(
-                                            <SectionSidebar 
-                                                key={'Sidebar'+index}
-                                                expanded={this.state.expanded} 
-                                                handleChange={this.handleChange} 
-                                                body={body}
-                                                changeSection={this.changeSection}
-                                                key={'sidebar-'+index}
-                                            />
-                                        )
-                                    })
-                                }
+                            <div className='sider-bar_bottom'>
+                                <div className={`c-sidebar-nav-title sidebar-title ${this.state.activeSection == 1 ? 'active' : ''}`} onClick={()=>{this.changeSection(1,<MainDash></MainDash>)}}>
+                                    <i className="fas fa-tachometer-alt"></i>
+                                    <span className='span-title'>Escritorio</span>
+                                </div>
+                                <div className='sidebar'>
+                                    {
+                                        this.props.sectionBoton.map((body,index)=>{
+                                            return(
+                                                <SectionSidebar 
+                                                    key={'Sidebar'+index}
+                                                    expanded={this.state.expanded} 
+                                                    handleChange={this.handleChange} 
+                                                    body={body}
+                                                    changeSection={this.changeSection}
+                                                    subHandleChangeSection= {this.subHandleChangeSection}
+                                                    key={'sidebar-'+index}
+                                                />
+                                            )
+                                        })
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -116,6 +119,8 @@ class SectionSidebar extends Component{
     constructor(props){
         super(props)
     }
+    componentDidMount(){
+    }
     render(){
         return(
             <div className='section-sidebar'>
@@ -127,7 +132,7 @@ class SectionSidebar extends Component{
                         this.props.body.sections.map((section)=>{
                             if(section.subSection == 0 ){
                                 return(
-                                    <div className={`c-sidebar-nav-title ${this.props.expanded == section.index ? 'active' : ''}`} onClick={()=>{this.props.changeSection(section.index)}}>
+                                    <div className={`c-sidebar-nav-title ${this.props.expanded == section.index ? 'active' : ''}`} onClick={()=>{this.props.changeSection(section.index,section.component)}}>
                                         <i className={section.icon}></i>
                                         <span className='span-title'>{section.title}</span>
                                         <i className="fas fa-chevron-right"></i>
@@ -135,7 +140,7 @@ class SectionSidebar extends Component{
                                 )
                             }else{
                                 return(
-                                <Accordion expanded={this.props.expanded === section.index} square onChange={this.props.handleChange(section.index)}>
+                                <Accordion expanded={this.props.expanded === section.index} square onChange={this.props.handleChange(section.index,section.component)}>
                                     <AccordionSummary aria-controls="panel-content">
                                         <Typography>
                                             <label className={`c-sidebar-nav-title ${this.props.expanded == section.index ? 'active-nav' : ''}`}>
@@ -150,7 +155,7 @@ class SectionSidebar extends Component{
                                             return(
                                             <AccordionDetails>
                                                 <Typography>
-                                                    <label className='c-sidebar-nav-title subsidebar'>
+                                                    <label className='c-sidebar-nav-title subsidebar' onClick={()=>{this.props.subHandleChangeSection(item.index,item.component)}}>
                                                         <i className={item.icon}></i>
                                                         <span className='span-title'>{item.title}</span>
                                                     </label>

@@ -1,15 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Galeria from "../pages/dashboard/galeria";
+import SliderMain from "../pages/dashboard/sliderMain";
 
 const initialState = {
-    activeSection:1,
+    activeSection:5,
     sectionBoton:[
         {   
             header:'MEDIA',
             sections:[
                 {
                     icon:"fas fa-photo-video",
-                    title:'Galeria',
+                    title:'Galería',
                     index:2,
+                    component:<Galeria/>,
                     subSection:[]
                 }
             ]
@@ -22,6 +25,7 @@ const initialState = {
                     icon:"fas fa-sitemap",
                     title:'Sitemap',
                     index:3,
+                    component:null,
                     subSection:[]
                 }
             ]
@@ -38,6 +42,7 @@ const initialState = {
                         {
                             icon:"fas fa-circle",
                             title:'Colors',
+                            component:null,
                         }
                     ]
                 }
@@ -52,21 +57,24 @@ const initialState = {
                 title:'Sliders',
                 index:5,
                 subSection:[{
-
                         icon:"fas fa-circle",
                         title:'Slider Principal',
+                        component: <SliderMain />,
                     },
                     {
                         icon:"fas fa-circle",
                         title:'Slider Interiores',
+                        component:null,
                     },
                     {
                         icon:"fas fa-circle",
-                        title:'Slider Areas comunes',
+                        title:'Slider Áreas comunes',
+                        component:null,
                     },
                     {
                         icon:"fas fa-circle",
                         title:'Avance de obra',
+                        component:null,
                     },
                 ]
             },
@@ -75,13 +83,14 @@ const initialState = {
                 title:'Form',
                 index:6,
                 subSection:[{
-
                         icon:"fas fa-circle",
                         title:'Formulario de inicio',
+                        component:null,
                     },
                     {
                         icon:"fas fa-circle",
                         title:'Formulario template',
+                        component:null,
                     },
                 ]
             },
@@ -92,14 +101,17 @@ const initialState = {
                 subSection:[{
                         icon:"fas fa-circle",
                         title:'Formulario Inicio',
+                        component:null,
                     },
                     {
                         icon:"fas fa-circle",
                         title:'Slider Interiores',
+                        component:null,
                     },
                     {
                         icon:"fas fa-circle",
                         title:'Slider Areas comunes',
+                        component:null,
                     },
                 ]
             },
@@ -110,6 +122,7 @@ const initialState = {
                 subSection:[{
                         icon:"fas fa-circle",
                         title:'Float Whatsapp',
+                        component:null,
                     },
                 ]
             },

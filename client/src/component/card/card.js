@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux'
 export default function Card(props){
     const count = useSelector((state) => state)
     const dispatch = useDispatch()
-    console.log(dispatch)
     return (
         <div className="slide card">
             <div className="slider-img">

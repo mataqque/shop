@@ -30,6 +30,8 @@ const storage = multer.diskStorage({
     }
 })
 
+
+
 const upload = multer({ storage: storage })
 
 router.post("/login",commands.chunkValidlogin, async (req,res)=>{
@@ -42,11 +44,12 @@ router.post("/login",commands.chunkValidlogin, async (req,res)=>{
         await pool.query(`SELECT * FROM users WHERE ( email = ? );`,[email],async (err, results, field)=>{
             try{
                 if(err){
-                    console.error(err)
                     res.send(err)
                 }
                 if(results.length > 0){
                     const match = await bcrypt.compare(password, results[0].password);
+                    console.log({match})
+    
                     if(match){
                         let token = await Manage_token.sign(JSON.stringify(results[0]))
                         res.send({type:true,token:token})
@@ -55,46 +58,66 @@ router.post("/login",commands.chunkValidlogin, async (req,res)=>{
                     }
                 }
                 if(results.length == 0){
-                    res.send({result:constantAnswer.USERNAME_PASSWORD_COMBINATION_ERROR,status:401})
+                    res.send({result:constantAnswer.USERNAME_PASSWORD_COMBINATION_ERROR,status:401,type:false})
                 }
             }catch(err){
                 console.error(err)
+                return err
             }
         })
-
     }
     
-})
+});
+
+
 router.post("/checkUser",async (req,res)=>{
     let { token } = req.body
-    let verify = await Manage_token.verify(token)
-
-    if(verify != false){
-        let match = await helpers.matchPassword('panpan123',Manage_token.parse(token).password)
-        res.send({token:true})
+    
+    let verify = await Manage_token.verify(token);  
+    if(verify){
+        let dataSet = Manage_token.parse(token);
+        res.send({token:true,dataSet:dataSet})
+        
+    }else{
+        res.send({token:false })
     }
-    
-    
-    // if(token == null){
-    //     res.send({token:false })
-    // }else{
-    //     if(verify(token) != false){
-    //         let valid = await helpers.matchPassword('panpan123',JSON.parse(JSON.parse(verify(token).data)).password)
-    //         res.send({token:valid})
-    //     }else{ 
-    //         res.send({token:false})
-    //     }
-    // }
-
-    // res.send({token:token,verify:verify(token)})
 });
 
 router.post("/registro",passport.authenticate('register', {
     passReqToCallback:true,
-}))
+}));
 
-router.post("/upload",upload.single('archivo'),(req,res)=>{
-    console.log(req.file)
-    res.send(true)
+router.post("/signout",(req,res)=>{
+    let add = Manage_token.parse(req.body.token);
+    res.send(add)
+});
+router.post("/signin",(req,res)=>{
+    let add = Manage_token.sign(req.body.token);
+    res.send(add)
+});
+
+
+
+
+router.post("/upload",upload.single('archivo'), async (req,res)=>{
+    const {filename, encoding, mimetype, size, path, destination } = req.file;
+    const file = {
+        filename:filename,
+        coding:encoding,
+        mimetype:mimetype,
+        destination:destination,
+        size:size,
+        path:path,
+    }
+    const newFile = await pool.query('INSERT INTO files SET ? ',file)
+    res.send({newFile:newFile})
 })
+
+
+router.post('/all-images',async (req,res)=>{
+    
+    const allFiles = await pool.query('SELECT * FROM files');
+    res.send(allFiles)
+})
+
 module.exports = router

@@ -49,7 +49,7 @@ class Login extends Component {
         axios.post("/api/login",values).then(this.response);
     }
     response = (response) =>{
-        console.log("data",response.data)
+        console.log("datass",response.data)
         if(response.data.type){
             localStorage.setItem("token",response.data.token)
             this.props.history.push("/dashboard")

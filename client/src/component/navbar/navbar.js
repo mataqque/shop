@@ -8,6 +8,7 @@ import './navbar.scss'
 import { connect } from 'react-redux'
 import { activeLinks } from '../../data/routesStore'
 import { Link } from 'react-router-dom'
+
 const getResults = () =>
   _.times(5, () => ({
     title: faker.company.companyName(),
@@ -89,84 +90,68 @@ class Navbar extends Component {
         e.addItem()
     }
     render() {
-        return (
-            <nav className="navbar">
-                <div className="container">
-                    <a className="brand" onClick={(e)=>{this.click(this.iconCarrito)}}>
-                        <img src={require("../../assets/images/pc-gaming.svg").default}></img>
-                    </a>
-                    <div className="container-link center">
-                        <Search 
-                            class={"search-ui"}
-                            handleSearchChange={this.handleSearchChange}
-                            leaveSearch = {this.leaveSearch}
-                            focusSearch = {this.focusSearch}
-                            value = {this.state.value}
-                            active = {this.state.active}
-                        >
-                        <div className={`content-result ${this.state.active ? "active" : ""}`}>
-                            {
-                            this.state.results.length == 0 ? <Nothing></Nothing>: this.state.results.map((item,index)=>{
-                                return(
-                                    <div className="contain-result" onClick={(e)=>{this.selectItem(item)}} key={'result'+index}>
-                                        <div className="content-detail">
-                                            <div className="result_title">{item.title}</div>
-                                            <span className="result_description">{item.description}</span>
-                                            <span className="result_price">Precio:{item.price}</span>
-                                        </div>
-                                        <div className="content-img">
-                                            <img src={item.image}></img>
-                                        </div>
-                                    </div>
-                                )
-                            })}
-                        </div>
-                        </Search>
-                    </div>
-                    <div className="container-link">
-                        {
-                            this.props.value.links.map((item,index)=>{
-                                if(item.show != false){
-                                    return(
-                                    <Link to={item.link} key={"link-"+index}>
-                                        <div className={`link ${item.index == this.props.value.activeLink ? "active" : ""}`}
-                                            onClick={()=>{this.props.activeLinks(item.index)}}
-                                        >
-                                            <span className="text-link">{item.title}</span>
-                                            <span className="line"></span>
-                                        </div>
-                                    </Link>
-                                    )
-                                }
-                            })
-                        }
-                        {/* <div className={`link ${this.state.activeLine == 2 ? "active" : ""}`}
-                            onClick={(e)=>{this.animationLine(e,2)}}>
-                            <div className="content-text cart">
-                                <Icon icon={animationData} ref={element => {this.iconCarrito = element;}}></Icon>
-                                <span className="text-link cart">Mi carrito</span>
-                            </div>
-                            <span className="line"></span>
-                        </div>
-                        <div className={`link ${this.state.activeLine == 3 ? "active" : ""}`}
-                            onClick={(e)=>{this.animationLine(e,3)}}>
-                            <span className="text-link">Categorias</span>
-                            <span className="line"></span>
-                        </div>
-                        <div className={`link ${this.state.activeLine == 4 ? "active" : ""}`}
-                            onClick={(e)=>{this.animationLine(e,4)}}
-                            onMouseEnter={(e)=>{this.click(this.iconUser)}}
+        if(this.props.value.navShow){
+            return (
+                <nav className="navbar">
+                    <div className="container">
+                        <a className="brand" onClick={(e)=>{this.click(this.iconCarrito)}}>
+                            <img src={require("../../assets/images/pc-gaming.svg").default}></img>
+                        </a>
+                        <div className="container-link center">
+                            <Search 
+                                class={"search-ui"}
+                                handleSearchChange={this.handleSearchChange}
+                                leaveSearch = {this.leaveSearch}
+                                focusSearch = {this.focusSearch}
+                                value = {this.state.value}
+                                active = {this.state.active}
                             >
-                            <div className="content-text cart">
-                                <Icon icon={baran} ref={element => {this.iconUser = element;}}></Icon>
-                                <span className="text-link cart">Mi cuenta</span>
+                            <div className={`content-result ${this.state.active ? "active" : ""}`}>
+                                {
+                                this.state.results.length == 0 ? <Nothing></Nothing>: this.state.results.map((item,index)=>{
+                                    return(
+                                        <div className="contain-result" onClick={(e)=>{this.selectItem(item)}} key={'result'+index}>
+                                            <div className="content-detail">
+                                                <div className="result_title">{item.title}</div>
+                                                <span className="result_description">{item.description}</span>
+                                                <span className="result_price">Precio:{item.price}</span>
+                                            </div>
+                                            <div className="content-img">
+                                                <img src={item.image}></img>
+                                            </div>
+                                        </div>
+                                    )
+                                })}
                             </div>
-                            <span className="line"></span>
-                        </div>   */}
+                            </Search>
+                        </div>
+                        <div className="container-link">
+                            {
+                                this.props.value.links.map((item,index)=>{
+                                    if(item.show != false){
+                                        return(
+                                        <Link to={item.link} key={"link-"+index}>
+                                            <div className={`link ${item.index == this.props.value.activeLink ? "active" : ""}`}
+                                                onClick={()=>{this.props.activeLinks(item.index)}}
+                                            >
+                                                <span className="text-link">{item.title}</span>
+                                                <span className="line"></span>
+                                            </div>
+                                        </Link>
+                                        )
+                                    }
+                                })
+                            }
+                            
+                        </div>
                     </div>
-                </div>
-            </nav>
-        )
+                </nav>
+            )
+        }else{
+            return(
+                <div></div>    
+            )
+        }
     }
 }
 function mapStateProps(state){
@@ -174,4 +159,4 @@ function mapStateProps(state){
         value:state.routesFeatures
     }
 }
-export default connect(mapStateProps,{ activeLinks})(Navbar)
+export default connect(mapStateProps,{ activeLinks })(Navbar)

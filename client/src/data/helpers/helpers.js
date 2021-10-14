@@ -14,8 +14,9 @@ export const deleteTokenHelper = () => {
 }
 
 export const curremtUserHelper = (state) => {
-    axios.post("/api/checkUser",{token:localStorage.getItem('token')}).then((res)=>{
-        console.log('res:',res.data)
-        // state.currentUser == true
-    });    
+    
+    state.currentUser = true
+    // axios.post("/api/checkUser",{token:localStorage.getItem('token')}).then((res)=>{
+ 
+    // });    
 }
