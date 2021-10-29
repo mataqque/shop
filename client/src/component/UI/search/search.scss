@@ -5,7 +5,7 @@
         width: 100%;
         position: absolute;
         color: black;
-        font-family: "GalanoGrotesque-Medium";
+        font-family: "Poppins-Regular";
         width: 100%;
         background: white;
         box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.411);
@@ -30,7 +30,7 @@
             flex-direction: column;
             .result_description{
                 font-size: .8rem;
-                font-family: "GalanoGrotesque-Medium";
+                font-family: "Poppins-Regular";
                 color: #868686;
                 line-height: 25px;
     
@@ -87,13 +87,12 @@
         padding:.5rem;
         padding-left: 1rem;
         padding-right: 2rem;
-        padding-bottom: .7rem;
         padding-top: .3rem;
         @media(min-width:1100px){
             font-size: .8rem;
         }
         @media(min-width:1400px){
-            font-size: 1rem;
+            font-size: .9rem;
         }
     }
     .icon-search{

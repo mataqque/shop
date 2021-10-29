@@ -12,7 +12,7 @@ body{
     margin: 0;
     box-sizing: border-box;
     outline: none;
-    font-family: "GalanoGrotesque-Medium";
+    font-family: "Poppins-Regular";
     -webkit-tap-highlight-color:transparent;
     outline: none;
 }
@@ -72,8 +72,8 @@ a {
     @media(min-width:1000px){
         max-width: 1000px;
     }
-    @media(min-width:1200px){
-        max-width: 1200px;
+    @media(min-width:1300px){
+        max-width: 1250px;
     }
     @media(min-width:1400px){
         max-width: 1400px;
@@ -102,4 +102,31 @@ a {
 }
 .c-white{
     color: white;
+}
+.c-black{
+    color: black;
+}
+.b-secondary{
+    background-color: var(--secondary);
+}
+.c-secondary{
+    color: var(--secondary);
+}
+.b-primary{
+    background-color: var(--primary);
+}
+.c-primary{
+    color: var(--primary);
+}
+.d-flex{
+    display: flex;
+}
+.flex-column{
+    flex-direction: column;
+}
+.align-center{
+    align-items: center;
+}
+.btn-padding{
+    padding: .5rem 1rem;
 }

@@ -37,6 +37,7 @@ const upload = multer({ storage: storage })
 router.post("/login",commands.chunkValidlogin, async (req,res)=>{
     const errors = validationResult(req); 
     const {email, password } = req.body;
+    console.log(password)
 
     if(!errors.isEmpty()){
         res.send(errors)
@@ -113,11 +114,22 @@ router.post("/upload",upload.single('archivo'), async (req,res)=>{
     res.send({newFile:newFile})
 })
 
-
 router.post('/all-images',async (req,res)=>{
-    
     const allFiles = await pool.query('SELECT * FROM files');
     res.send(allFiles)
 })
 
+router.post('/add-slider',async (req,res)=>{
+    var result = req.body.map((e)=>Object.values(e));
+    await pool.query( "DELETE FROM slider;");
+    let newFile = await pool.query(`INSERT INTO slider(id,image,alt,title) VALUES ?;`,[result],(err, res) => {
+        if(err) throw err;      
+        console.log('Last insert ID:', res);
+    })    
+})
+
+router.get('/get-sliders',async (req,res)=>{
+    const allSlides = await pool.query('SELECT * FROM slider');
+    res.send(allSlides)
+})  
 module.exports = router

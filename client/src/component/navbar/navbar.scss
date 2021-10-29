@@ -32,14 +32,14 @@
                 align-items: center;
             }
             .text-link{
-                font-family: "GalanoGrotesque-Medium";
+                font-family: "Poppins-Regular";
                 padding-bottom: 0.2rem;
                 display: flex;
                 @media(min-width:1100px){
                     font-size: .8rem;
                 }
                 @media(min-width:1400px){
-                    font-size: 1rem;
+                    font-size: .9rem;
                 }
                 // line-height: 0.9rem;
             }

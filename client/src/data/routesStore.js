@@ -3,16 +3,22 @@ import Inicio from '../pages/inicio/inicio'
 import Login from '../pages/formularios/login'
 import LoginRegister from '../pages/formularios/loginRegister'
 import { dataInicio } from './inicio'
-import Dashboard from '../pages/dashboard/dashboard'
+import Inicio2 from '../pages/inicio/inicio2'
 
 const  initialState = {
     activeLinkValue: 0,
     navShow:true,
     links:[
         {
+            index:0,
+            title:"Inicio2",
+            link:"/",
+            component:<Inicio2></Inicio2>,
+        },
+        {
             index:1,
             title:"Inicio",
-            link:"/",
+            link:"/inicio2",
             component:<Inicio data={dataInicio}></Inicio>
         },
         {

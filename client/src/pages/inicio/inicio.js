@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import Footer from '../../component/footer/footer';
 import Card from '../../component/card/card';
 import CardSlider from '../../component/card/cardSlider';
+import { CulqiProvider, Culqi } from 'react-culqi';
 export default class Inicio extends Component {
     constructor(props){
         super(props)
@@ -22,6 +23,9 @@ export default class Inicio extends Component {
             },
             category:"",
         }
+    }
+    componentDidMount(){
+       
     }
     activeSearch(category){
         console.log(category)
@@ -66,7 +70,7 @@ export default class Inicio extends Component {
                                     return(
                                         <div className={`item_categoria ${this.state.category == index ? "active" : ""}`} onClick={(e)=>{this.activeSearch(index)}} key={'category-'+index}>
                                             <div className={`icon-mask ${item.icon}`}></div>
-                                            <span className="title GalanoGrotesque-Medium">{item.title}</span>
+                                            <span className="title ">{item.title}</span>
                                         </div>
                                     )
                                 })
@@ -84,7 +88,23 @@ export default class Inicio extends Component {
                     </div>
                 </div>
                 <section className="section-most-seller">
-                    
+                <CulqiProvider
+                    publicKey="pk_test_6e32f0a888086317"
+                    amount={10000}
+                    title="My payment"
+                    onToken={token => {
+                        console.log("token received", token);
+                    }}
+                    onError={error => {
+                        console.log("something bad happened", error);
+                    }}
+                    >
+                    <Culqi>
+                        {({ openCulqi, setAmount, amount }) => {
+                        return <button onClick={openCulqi}>Open Culqi</button>;
+                        }}
+                    </Culqi>
+                </CulqiProvider>
                 </section>
                 <section className="section-review">
 

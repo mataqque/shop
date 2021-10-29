@@ -6,7 +6,6 @@ class SortableContent extends React.Component {
         this.state = {
             items: this.props.data,
         };
-        console.log('sortable content:',this.props)
     }
     
     onSortItems = (items) => {
@@ -21,9 +20,11 @@ class SortableContent extends React.Component {
                             <SortableItem 
                             key={i+"ul"}
                             onSortItems={this.onSortItems}
+                            editSlider={this.props.editSlider}
                             removeSlider={this.props.removeSlider}
                             addSlider={this.props.addSlider}
                             items={this.props.data}
+                            item={item}
                             sortId={i}
                             index={i}
                             >{item}
@@ -48,7 +49,6 @@ class Item extends Component {
         super(props)
     }
     componentDidMount(){
-        console.log("itme",this.props)
     }
     moveElement =(element)=>{
         // console.log(element)
@@ -62,8 +62,8 @@ class Item extends Component {
                     <i className="far fa-trash-alt c-white" aria-hidden="true"></i>
                     <span className='span-title'>Eliminar</span>
                 </div>
-                <div className='btn-delete b-green c-white' onClick={()=>{this.props.addSlider(this.props.index)}}>
-                    <i class="fas fa-pencil-alt c-white"></i>
+                <div className='btn-delete b-green c-white' onClick={()=>{this.props.editSlider(this.props.item)}}>
+                    <i className="fas fa-pencil-alt c-white"></i>
                     <span className='span-title'>Editar</span>
                 </div>
             </li>

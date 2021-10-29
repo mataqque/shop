@@ -29,3 +29,13 @@ CREATE TABLE files(
     path VARCHAR(200) NOT NULL,
     PRIMARY KEY (id_file)
 );
+
+CREATE TABLE slider (
+    id INT(11) NOT NULL,
+    image VARCHAR(255) NOT NULL,
+    alt VARCHAR(255) NOT NULL,
+    title VARCHAR(255) NOT NULL
+);
+
+ALTER TABLE slider
+  ADD PRIMARY KEY (id);

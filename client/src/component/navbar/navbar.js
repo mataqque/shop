@@ -40,6 +40,7 @@ class Navbar extends Component {
             results:[],
             active:false,
         }
+       
     }
     componentDidMount(){
         let location = this.props.value.links.filter((item,index)=>{

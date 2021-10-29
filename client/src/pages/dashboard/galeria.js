@@ -24,7 +24,7 @@ export default class Galeria extends Component {
             headers: {
             'Content-Type': 'multipart/form-data'
             }
-        })
+        });
     }
     selected = (image) =>{
         let newArray = this.state.selected

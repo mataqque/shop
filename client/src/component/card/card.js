@@ -26,6 +26,9 @@ export default function Card(props){
             <p className="paragraph">
                 Los procesadores 3rd Gen AMD Ryzen son los más avanzados del mundo en el segmento de juegos de PC de escritorio
             </p>
+            <div className='btn-card'>
+                COMPRAR
+            </div>
         </div>
     )
     

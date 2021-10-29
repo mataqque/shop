@@ -56,9 +56,9 @@ class Routes extends Component {
                         <Protected></Protected>
                     </PrivatedRoute>
                     <PrivatedRoute exact path='/dashboard' key='dasboard'>
-                        <Dashboard />
+                        <Dashboard/>
                     </PrivatedRoute>
-                    <Redirect to="/"/>
+                    {/* <Redirect to="/"/> */}
                 </Switch>                
             </Router>
         </div>

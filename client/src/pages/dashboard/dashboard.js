@@ -7,7 +7,6 @@ import 'font-awesome/css/font-awesome.min.css';
 import { Helmet } from 'react-helmet';
 import './dashboard.scss'
 import Galeria from './galeria';
-import axios from 'axios';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { getToken,deleteToken, setToken } from '../../data/userStore';
@@ -99,7 +98,7 @@ class Dashboard extends Component {
                                 </div>
                             </div>
                             <div className='toggle left' onClick={()=>{this.logOut()}}>
-                                <i class="fas fa-sign-out-alt"></i>
+                                <i className="fas fa-sign-out-alt"></i>
                             </div>
                         </div>
                         <div className='content-wrapper'>
