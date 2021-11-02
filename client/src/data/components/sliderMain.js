@@ -51,9 +51,12 @@ const slider = createSlice({
             let newArray = getArray.filter((i,index) => index != id.payload)
             state.data = newArray
         },
-
+        onSortItems:(state,value)=>{
+            state.data = value.payload
+            console.log('sortitems',value.payload)
+        }
     },
 })
 
-export const { insertImageSlider,setEditSlider,onchange,getData,addSlider,removeSlider} = slider.actions
+export const { insertImageSlider,setEditSlider,onchange,getData,addSlider,removeSlider,onSortItems} = slider.actions
 export default slider.reducer

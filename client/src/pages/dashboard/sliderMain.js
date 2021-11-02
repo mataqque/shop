@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import {useDropzone} from 'react-dropzone';
 import { showGallery} from '../../data/galleryModal';
 import { setEditSlider, insertImageSlider} from '../../data/components/sliderMain';
-import { onchange,getData,addSlider,removeSlider} from '../../data/components/sliderMain';
+import { onchange,getData,addSlider,removeSlider,onSortItems} from '../../data/components/sliderMain';
 import axios from 'axios';
 class SliderMain extends Component {
     constructor(props){
@@ -12,6 +12,10 @@ class SliderMain extends Component {
         this.editSlider = this.editSlider.bind(this)
         this.state = {
             activeEdit:false,
+            data:[
+                {id:1,imageDesk:'/images/947119258-Astronaut-Wallpaper.jpg',imageMobile:"",title:'Nombre-1',alt:'Descipción Alt'},
+                {id:2,imageDesk:'/images/947119258-Astronaut-Wallpaper.jpg',imageMobile:"",title:'Nombre-2',alt:'Descipción Alt'},
+            ]
         }
         console.log('slider-main',this.props)
     }
@@ -45,7 +49,8 @@ class SliderMain extends Component {
                         <div className='header-sortable'>
                             Lista de imágenes
                         </div>
-                        <SortableContent 
+                        <SortableContent
+                            onSortItems={this.props.onSortItems}
                             addSlider={this.props.addSlider}
                             editSlider={this.editSlider}
                             removeSlider={this.props.removeSlider}
@@ -119,7 +124,7 @@ const MapStateProps = (state) =>{
         slider:state.slider
     })
 };
-export default connect(MapStateProps,{showGallery,setEditSlider,onchange,getData,addSlider,removeSlider,insertImageSlider})(SliderMain);
+export default connect(MapStateProps,{showGallery,setEditSlider,onchange,getData,addSlider,removeSlider,insertImageSlider,onSortItems})(SliderMain);
 
 function MyDropzone() {
     const onDrop = useCallback((acceptedFiles) => {

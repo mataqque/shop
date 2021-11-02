@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Sortable } from 'react-sortable'
 class SortableContent extends React.Component {
     constructor(props){
@@ -6,25 +7,22 @@ class SortableContent extends React.Component {
         this.state = {
             items: this.props.data,
         };
+        console.log('this sortablecontent',this.props)
     }
-    
-    onSortItems = (items) => {
-        this.setState({items:items});
-    };
     render() {   
       return (
             <ul className='sortable scroll small-select-to' id="tab-navigation-container">
                 {
-                    this.state.items.map((item,i)=>{
+                    this.props.value.data.map((item,i)=>{
                         return(
                             <SortableItem 
                             key={i+"ul"}
-                            onSortItems={this.onSortItems}
+                            onSortItems={this.props.onSortItems}
                             editSlider={this.props.editSlider}
                             removeSlider={this.props.removeSlider}
                             addSlider={this.props.addSlider}
-                            items={this.props.data}
-                            item={item}
+                            items={JSON.parse(JSON.stringify(this.props.value.data))}
+                            item={JSON.parse(JSON.stringify(item))}
                             sortId={i}
                             index={i}
                             >{item}
@@ -39,19 +37,20 @@ class SortableContent extends React.Component {
       )
     }
 };
-
-export default SortableContent
+const MapStateProps =(state)=>{
+    return(
+        {
+            value: state.slider
+        }
+    )
+}
+export default connect(MapStateProps,null)(SortableContent)
 
 
 
 class Item extends Component {
     constructor(props){
         super(props)
-    }
-    componentDidMount(){
-    }
-    moveElement =(element)=>{
-        // console.log(element)
     }
     render() {
         return (
