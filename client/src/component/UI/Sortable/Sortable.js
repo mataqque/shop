@@ -7,7 +7,6 @@ class SortableContent extends React.Component {
         this.state = {
             items: this.props.data,
         };
-        console.log('this sortablecontent',this.props)
     }
     render() {   
       return (

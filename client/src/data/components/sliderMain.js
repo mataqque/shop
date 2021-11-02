@@ -53,7 +53,6 @@ const slider = createSlice({
         },
         onSortItems:(state,value)=>{
             state.data = value.payload
-            console.log('sortitems',value.payload)
         }
     },
 })

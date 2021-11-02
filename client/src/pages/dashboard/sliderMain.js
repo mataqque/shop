@@ -12,31 +12,27 @@ class SliderMain extends Component {
         this.editSlider = this.editSlider.bind(this)
         this.state = {
             activeEdit:false,
-            data:[
-                {id:1,imageDesk:'/images/947119258-Astronaut-Wallpaper.jpg',imageMobile:"",title:'Nombre-1',alt:'Descipción Alt'},
-                {id:2,imageDesk:'/images/947119258-Astronaut-Wallpaper.jpg',imageMobile:"",title:'Nombre-2',alt:'Descipción Alt'},
-            ]
         }
-        console.log('slider-main',this.props)
     }
     componentDidMount(){
         axios.get('/api/get-sliders').then(this.getDataSlider)
     }
+    getResponse =(response)=>{ 
+        console.log(response)
+    }
     getDataSlider =(response)=>{
         this.props.getData({data:response.data})
+        console.log(response.data)
     }
-    
     editSlider(item){
         this.setState({activeEdit:true})
         this.props.setEditSlider(item)
     }
-    handleSubmitSlider(){
-        axios.post('/api/add-slider',this.props.slider.data).then(this.response)
+   
+    handleSubmitSlider =()=>{
+        axios.post('/api/add-slider',this.props.slider.data).then(this.getResponse)
     }
-    response = (response) =>{ 
-        console.log(response.data)
-        alert('save')
-    }
+    
     render(){
         return (
             <div className="features content-sliders">
@@ -106,7 +102,7 @@ class SliderMain extends Component {
                                 </div>
                             </div>
                             <div className='content-option-images content-btn-button'>
-                                <div className='btn-submit bcolor1 c-white' onClick={()=>{this.handleSubmitSlider()}}>
+                                <div className='btn-submit bcolor1 c-white' onClick={(e)=>{this.handleSubmitSlider(this)}}>
                                     <span className='span-title'>
                                         Guardar cambios
                                     </span>
