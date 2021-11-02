@@ -32,7 +32,8 @@ CREATE TABLE files(
 
 CREATE TABLE slider (
     id INT(11) NOT NULL,
-    image VARCHAR(255) NOT NULL,
+    imageDesk VARCHAR(255) NOT NULL,
+    imageMobile VARCHAR(255) NOT NULL,
     alt VARCHAR(255) NOT NULL,
     title VARCHAR(255) NOT NULL
 );

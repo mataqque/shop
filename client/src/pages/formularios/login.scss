@@ -95,7 +95,6 @@
                 width: 100%;
                 background-color: #eff0fb;
                 padding: 0 1rem;
-                padding-bottom: .3rem;
                 font-size: 1rem;
                 line-height: 1rem;
                 color: var(--primary);
@@ -123,11 +122,13 @@
                 line-height: .7rem;
             }
             .title-check{
-                padding-bottom: .3rem;
+                
             }
             .forget{
                 text-decoration: underline;
                 cursor: pointer;
+                display: flex;
+                align-items: center;
             }
             .remember{
                 width: 100%;
@@ -151,7 +152,6 @@
                 background-color: var(--primary);
                 color: white;
                 margin-bottom: 1rem;
-                padding-bottom: .4rem;
                 cursor: pointer;
                 @media(max-width:1400px){
                     font-size: .8rem;

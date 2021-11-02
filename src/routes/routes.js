@@ -120,12 +120,17 @@ router.post('/all-images',async (req,res)=>{
 })
 
 router.post('/add-slider',async (req,res)=>{
-    var result = req.body.map((e)=>Object.values(e));
-    await pool.query( "DELETE FROM slider;");
-    let newFile = await pool.query(`INSERT INTO slider(id,image,alt,title) VALUES ?;`,[result],(err, res) => {
-        if(err) throw err;      
-        console.log('Last insert ID:', res);
-    })    
+    console.log(req.body)
+    if(req.body.length == 0){
+        await pool.query( "DELETE FROM slider;");
+    }else{
+        var result = req.body.map((e)=>Object.values(e));
+        await pool.query( "DELETE FROM slider;");
+        let newFile = await pool.query(`INSERT INTO slider(id,imageDesk,imageMobile,alt,title) VALUES ?;`,[result],(err, res) => {
+            if(err) throw err;
+        })    
+        res.send(newFile)
+    }
 })
 
 router.get('/get-sliders',async (req,res)=>{

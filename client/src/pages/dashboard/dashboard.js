@@ -11,6 +11,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { getToken,deleteToken, setToken } from '../../data/userStore';
 import MainDash from './mainDash';
+import GaleriaModal from './galeriaModal';
 class Dashboard extends Component {
     constructor(props){
         super(props)
@@ -21,6 +22,7 @@ class Dashboard extends Component {
             closeSidebar:false,
             component: null,
         }
+       
     }
     // it change section over out Acordion component  
     changeSection = (active , upComponent) =>{
@@ -47,6 +49,9 @@ class Dashboard extends Component {
                 <Helmet>
                     <script src="https://kit.fontawesome.com/6611670d58.js" crossorigin="anonymous"></script>
                 </Helmet>
+                {
+                    this.props.show == true ? <GaleriaModal/> : null
+                }
                 <div className='content-dashboard'>
                     <div className={`envolves ${this.state.closeSidebar ? 'close' : ''}`}>
                         <div className='content-sidebar'>
@@ -177,7 +182,8 @@ class SectionSidebar extends Component{
 const MapStateProps = (state) =>{
     return({
         user:state.userStore,
-        sectionBoton:state.dashboardStore.sectionBoton
+        sectionBoton:state.dashboardStore.sectionBoton,
+        show:state.ModalGallery.showModalGallery
     })
 }
 export default withRouter( connect(MapStateProps,{setToken,getToken,deleteToken})(Dashboard))

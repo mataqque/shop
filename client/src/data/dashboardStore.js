@@ -134,10 +134,6 @@ const initialState = {
 
 export const dashboardStore = createSlice({
     name:"dashboard",
-    initialState,
-    reducers:{
-        
-    }
-})
-
+    initialState
+});
 export default dashboardStore.reducer
