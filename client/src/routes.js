@@ -41,7 +41,7 @@ class Routes extends Component {
                     {
                         this.props.value.links.map((item,index)=>{
                             return(
-                                <Route exact path={item.link} >
+                                <Route exact path={item.link} key={index-'route'}>
                                     <PublicRoutes item={item}>
                                         {item.component}    
                                     </PublicRoutes>

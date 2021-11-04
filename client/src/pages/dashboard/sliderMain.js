@@ -36,76 +36,78 @@ class SliderMain extends Component {
     render(){
         return (
             <div className="features content-sliders">
-                <div className="title-component">
-                    Slider principal
-                    <p className="paragraph">Edita los sliders de todas las páginas en orden de lista.</p>
-                </div>
-                <div className='content-features'>
-                    <div className='content-sortable'>
-                        <div className='header-sortable'>
-                            Lista de imágenes
-                        </div>
-                        <SortableContent
-                            onSortItems={this.props.onSortItems}
-                            addSlider={this.props.addSlider}
-                            editSlider={this.editSlider}
-                            removeSlider={this.props.removeSlider}
-                            data={this.props.slider.data}
-                            key={new Date().getTime()}
-                        ></SortableContent>
+                <div className='content-features-galery'>
+                    <div className="title-component">
+                        Slider principal
+                        <p className="paragraph">Edita los sliders de todas las páginas en orden de lista.</p>
                     </div>
-                    <div className='option-sortable-image'>
-                        <div className='header-sortable'>
-                            Información del item
+                    <div className='content-features'>
+                        <div className='content-sortable'>
+                            <div className='header-sortable'>
+                                Lista de imágenes
+                            </div>
+                            <SortableContent
+                                onSortItems={this.props.onSortItems}
+                                addSlider={this.props.addSlider}
+                                editSlider={this.editSlider}
+                                removeSlider={this.props.removeSlider}
+                                data={this.props.slider.data}
+                                key={new Date().getTime()}
+                            ></SortableContent>
                         </div>
-                        <div className={`scroll ${this.state.activeEdit == false ? 'inactive' : ''}`}>
-                            <div className='content-option-images'>
-                                <div className='flex-column'>
-                                    <span className='title-option-image'><strong> Nombre de imagen</strong></span>
-                                    <input placeholder={this.props.slider.sectionEdit.title} value={this.props.slider.sectionEdit.title}
-                                    onChange={(e)=>{this.props.onchange({target:e,title:'title',item:this.props.slider.sectionEdit})}}
-                                    ></input>
-                                </div>
-                                <div className='flex-column'>
-                                    <span className='title-option-image'><strong>Descripción del alt-imagen </strong></span>
-                                    <input placeholder={this.props.slider.sectionEdit.alt} value={this.props.slider.sectionEdit.alt}
-                                    onChange={(e)=>{this.props.onchange({target:e,title:'alt',item:this.props.slider.sectionEdit})}}
-                                    ></input>
-                                </div>
+                        <div className='option-sortable-image'>
+                            <div className='header-sortable'>
+                                Información del item
                             </div>
-                            <div className='upload-images'>
-                                <div className='upload-image-desktop'>
-                                    <span className='title-upload'>Imagen Desktop</span>
-                                    {
-                                        this.props.slider.sectionEdit.imageDesk.length > 5 ?
-                                        <div className='content-img'>
-                                            <img className='img' src={this.props.slider.sectionEdit.imageDesk} ></img> 
-                                        </div> :
-                                        <MyDropzone></MyDropzone>
-                                    }
-                                    <div className='select_to_gallery bcolor1 c-white radius'>
-                                        Selecciona desde la Galeria
+                            <div className={`scroll ${this.state.activeEdit == false ? 'inactive' : ''}`}>
+                                <div className='content-option-images'>
+                                    <div className='flex-column'>
+                                        <span className='title-option-image'><strong> Nombre de imagen</strong></span>
+                                        <input placeholder={this.props.slider.sectionEdit.title} value={this.props.slider.sectionEdit.title}
+                                        onChange={(e)=>{this.props.onchange({target:e,title:'title',item:this.props.slider.sectionEdit})}}
+                                        ></input>
+                                    </div>
+                                    <div className='flex-column'>
+                                        <span className='title-option-image'><strong>Descripción del alt-imagen </strong></span>
+                                        <input placeholder={this.props.slider.sectionEdit.alt} value={this.props.slider.sectionEdit.alt}
+                                        onChange={(e)=>{this.props.onchange({target:e,title:'alt',item:this.props.slider.sectionEdit})}}
+                                        ></input>
                                     </div>
                                 </div>
-                                <div className='upload-image-movil'>
-                                    <span className='title-upload'>Imagen Movil</span>
-                                    {
-                                        this.props.slider.sectionEdit.imageMobile.length > 5 ?
-                                        <div className='content-img'>
-                                            <img className='img' src={this.props.slider.sectionEdit.imageMobile} ></img> 
-                                        </div> :
-                                        <MyDropzone></MyDropzone>
-                                    }
-                                    <div className='select_to_gallery bcolor1 c-white radius' >
-                                        Selecciona desde la Galeria
+                                <div className='upload-images'>
+                                    <div className='upload-image-desktop'>
+                                        <span className='title-upload'>Imagen Desktop</span>
+                                        {
+                                            this.props.slider.sectionEdit.imageDesk.length > 5 ?
+                                            <div className='content-img'>
+                                                <img className='img' src={this.props.slider.sectionEdit.imageDesk} ></img> 
+                                            </div> :
+                                            <MyDropzone></MyDropzone>
+                                        }
+                                        <div className='select_to_gallery bcolor1 c-white radius' onClick={()=>{this.props.showGallery({insert:insertImageSlider})}}>
+                                            Selecciona desde la Galeria
+                                        </div>
+                                    </div>
+                                    <div className='upload-image-movil'>
+                                        <span className='title-upload'>Imagen Movil</span>
+                                        {
+                                            this.props.slider.sectionEdit.imageMobile.length > 5 ?
+                                            <div className='content-img'>
+                                                <img className='img' src={this.props.slider.sectionEdit.imageMobile} ></img> 
+                                            </div> :
+                                            <MyDropzone></MyDropzone>
+                                        }
+                                        <div className='select_to_gallery bcolor1 c-white radius' >
+                                            Selecciona desde la Galeria
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className='content-option-images content-btn-button'>
-                                <div className='btn-submit bcolor1 c-white' onClick={(e)=>{this.handleSubmitSlider(this)}}>
-                                    <span className='span-title'>
-                                        Guardar cambios
-                                    </span>
+                                <div className='content-option-images content-btn-button'>
+                                    <div className='btn-submit bcolor1 c-white' onClick={(e)=>{this.handleSubmitSlider(this)}}>
+                                        <span className='span-title'>
+                                            Guardar cambios
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
