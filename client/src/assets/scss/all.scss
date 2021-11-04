@@ -43,6 +43,10 @@ a {
 .pointer{
     cursor: pointer;
 }
+.disabled{
+    pointer-events: none;
+    opacity: .7;
+}
 // icons
     .icon-mask{
         mask-position: center;

@@ -33,6 +33,7 @@ class SliderMain extends Component {
         axios.post('/api/add-slider',this.props.slider.data).then(this.getResponse)
     }
     getResponse =(response)=>{
+        this.setState({disabled:false})
         alert(response.data)
     }
     getImage =(data)=>{
@@ -115,7 +116,7 @@ class SliderMain extends Component {
                                     </div>
                                 </div>
                                 <div className='content-option-images content-btn-button'>
-                                    <div className='btn-submit bcolor1 c-white' disabled={this.state.disabled} onClick={(e)=>{this.handleSubmitSlider(this)}}>
+                                    <div className={`btn-submit bcolor1 c-white ${this.state.disabled == true ? 'disabled' : ''}`} onClick={(e)=>{this.handleSubmitSlider(this)}}>
                                         <span className='span-title'>
                                             Guardar cambios
                                         </span>
