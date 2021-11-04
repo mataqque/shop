@@ -119,21 +119,21 @@ router.post('/all-images',async (req,res)=>{
     res.send(allFiles)
 })
 
-router.post('/add-slider',async (req,res)=>{
-    console.log(req.body)
+router.post('/add-slider',async (req,respond)=>{
     try{
         if(req.body.length == 0){
             await pool.query( "DELETE FROM slider;");
+            respond.send('DOSNT EXIST ITEM')
         }else{
             var result = req.body.map((e)=>Object.values(e));
             await pool.query( "DELETE FROM slider;");
             let newFile = await pool.query(`INSERT INTO slider(id,imageDesk,imageMobile,alt,title) VALUES ?;`,[result],(err, res) => {
                 if(err) throw err;
+                respond.send('UPDATE DATA')
             })
-            res.send('update data')
         }
     }catch(err){
-        console.log(err)
+        respond.send('ERROR, UPDATING')
     }
 })
 

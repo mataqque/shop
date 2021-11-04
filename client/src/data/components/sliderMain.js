@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import { insertImage } from "../galleryModal";
+import store from "../store";
 
 const initialState = {
     data:[],
@@ -12,16 +13,29 @@ const slider = createSlice({
         setEditSlider:(state,image)=>{
             state.sectionEdit = image.payload
         },
-        insertImageSlider:(state,image)=>{
-            console.log('insertImageSlider',image.payload)
-            // state.sectionEdit = image.payload
-        },
         onchange:(state,value)=>{
+            console.log(value.payload)
             let edit = state.sectionEdit;
             edit[value.payload.title] = value.payload.target.target.value
             
             let dataSlider = state.data.map((e)=>{
                 if(e.id == value.payload.item.id){
+                    return e = edit
+                }else {
+                    return e
+                }
+            })
+            
+            state.sectionEdit = edit
+            state.data = dataSlider
+        },
+        addImageSelected:(state,image)=>{
+            let edit = state.sectionEdit;
+            console.log(image.payload)
+            edit[image.payload.description] = `/images/${image.payload.image.filename}`
+            
+            let dataSlider = state.data.map((e)=>{
+                if(e.id == state.sectionEdit.id){
                     return e = edit
                 }else {
                     return e
@@ -55,7 +69,16 @@ const slider = createSlice({
             state.data = value.payload
         }
     },
+    extraReducers:(builder)=>{
+        builder.addCase(insertImage,(state,value)=>{
+            // let time = setInterval(() => {
+            //     console.log(store.getState())
+            //     clearInterval(time)
+            // }, 400);
+            // state.sectionEdit.imageDesk = 
+        })
+    }
 })
 
-export const { insertImageSlider,setEditSlider,onchange,getData,addSlider,removeSlider,onSortItems} = slider.actions
+export const { insertImageSlider,setEditSlider,onchange,getData,addSlider,removeSlider,onSortItems,addImageSelected} = slider.actions
 export default slider.reducer

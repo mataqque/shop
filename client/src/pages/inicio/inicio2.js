@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './inicio2.scss' 
 import Slider from "react-slick";
 import { connect } from 'react-redux';
-
+import { increment } from '../../data/components/counter';
 class Inicio2 extends Component {
     constructor(props){
         super(props)
@@ -49,9 +49,7 @@ class Inicio2 extends Component {
                         <div className='content-img'>
                             <img className='img' src={require('../../assets/images/inicio/slider/slider-1.png').default} ></img>
                         </div>
-                        <div className='content-img'>
-                            <img className='img' src={require('../../assets/images/inicio/slider/slider-1.png').default} ></img>
-                        </div>
+                        
                         
                         {/* <Slider {...this.state.settings}>
                             {
@@ -66,13 +64,26 @@ class Inicio2 extends Component {
                         </Slider> */}
                     </div>
                 </div>
+                <div className='--load d-flex'>
+                    <div className='radius b-primary c-white px-1 pointer' onClick={()=>{this.props.increment()}}>
+                        CHANGE AGE
+                    </div>
+                    <div className='radius b-primary c-white px-1 '>
+                        EDAD {this.props.user.age}
+                    </div>
+                    <div className='radius b-primary c-white px-1 '>
+                        COUNT {this.props.count.count}
+                    </div>
+                </div>
             </section>
         )
     }
 }
 const mapStateProps = (state)=>{
     return({
-        value: state.sliderMain
+        value: state.sliderMain,
+        user:state.user,
+        count:state.counter
     })
 }
-export default connect(mapStateProps)(Inicio2)
+export default connect(mapStateProps,{increment})(Inicio2)

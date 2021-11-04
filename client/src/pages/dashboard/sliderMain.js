@@ -4,22 +4,22 @@ import { connect } from 'react-redux';
 import {useDropzone} from 'react-dropzone';
 import { showGallery} from '../../data/galleryModal';
 import { setEditSlider, insertImageSlider} from '../../data/components/sliderMain';
-import { onchange,getData,addSlider,removeSlider,onSortItems} from '../../data/components/sliderMain';
+import { onchange,getData,addSlider,removeSlider,onSortItems,addImageSelected} from '../../data/components/sliderMain';
 import axios from 'axios';
 class SliderMain extends Component {
     constructor(props){
         super(props)
         this.editSlider = this.editSlider.bind(this)
+        this.handleSubmitSlider = this.handleSubmitSlider.bind(this)
         this.state = {
             activeEdit:false,
+            disabled:false,
         }
     }
     componentDidMount(){
         axios.get('/api/get-sliders').then(this.getDataSlider)
     }
-    getResponse =(response)=>{ 
-        console.log(response)
-    }
+    
     getDataSlider =(response)=>{
         this.props.getData({data:response.data})
         console.log(response.data)
@@ -28,9 +28,18 @@ class SliderMain extends Component {
         this.setState({activeEdit:true})
         this.props.setEditSlider(item)
     }
-   
-    handleSubmitSlider =()=>{
+    handleSubmitSlider(){
+        this.setState({disabled:true})
         axios.post('/api/add-slider',this.props.slider.data).then(this.getResponse)
+    }
+    getResponse =(response)=>{
+        alert(response.data)
+    }
+    getImage =(data)=>{
+        let time = setInterval(() => {
+            this.props.addImageSelected(data)
+            clearInterval(time)
+        }, 400);
     }
     
     render(){
@@ -84,7 +93,8 @@ class SliderMain extends Component {
                                             </div> :
                                             <MyDropzone></MyDropzone>
                                         }
-                                        <div className='select_to_gallery bcolor1 c-white radius' onClick={()=>{this.props.showGallery({insert:insertImageSlider})}}>
+                                        <div className='select_to_gallery bcolor1 c-white radius' 
+                                            onClick={()=>{this.props.showGallery({action:this.getImage,description:'imageDesk'})}}>
                                             Selecciona desde la Galeria
                                         </div>
                                     </div>
@@ -97,13 +107,15 @@ class SliderMain extends Component {
                                             </div> :
                                             <MyDropzone></MyDropzone>
                                         }
-                                        <div className='select_to_gallery bcolor1 c-white radius' >
+                                        <div className='select_to_gallery bcolor1 c-white radius'
+                                             onClick={()=>{this.props.showGallery({action:this.getImage,description:'imageMobile'})}}
+                                        >
                                             Selecciona desde la Galeria
                                         </div>
                                     </div>
                                 </div>
                                 <div className='content-option-images content-btn-button'>
-                                    <div className='btn-submit bcolor1 c-white' onClick={(e)=>{this.handleSubmitSlider(this)}}>
+                                    <div className='btn-submit bcolor1 c-white' disabled={this.state.disabled} onClick={(e)=>{this.handleSubmitSlider(this)}}>
                                         <span className='span-title'>
                                             Guardar cambios
                                         </span>
@@ -122,7 +134,11 @@ const MapStateProps = (state) =>{
         slider:state.slider
     })
 };
-export default connect(MapStateProps,{showGallery,setEditSlider,onchange,getData,addSlider,removeSlider,insertImageSlider,onSortItems})(SliderMain);
+export default connect(MapStateProps,{
+    showGallery,setEditSlider,onchange,getData,
+    addSlider,removeSlider,insertImageSlider,onSortItems,
+    addImageSelected
+})(SliderMain);
 
 function MyDropzone() {
     const onDrop = useCallback((acceptedFiles) => {
