@@ -1,10 +1,8 @@
-const express = require('express')
-const path = require('path')
 module.exports = {
     database:{
-        host:"localhost",
-        user:"root",
-        password:"",
-        database:"shop"
+        host: process.env.HOST,
+        user: process.env.USER_DATABASE,
+        password: process.env.PASSWORD,
+        database:process.env.DATABASE
     }
 }

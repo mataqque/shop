@@ -1,10 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { insertImage } from "../galleryModal";
-import store from "../store";
 
 const initialState = {
     data:[],
-    sectionEdit:{id:'',imageDesk:'/images/947119258-Astronaut-Wallpaper.jpg',imageMobile:"",title:'Nombre',alt:'Descipción Alt'},
+    sectionEdit:{id:'',imageDesk:'/images/947119258-Astronaut-Wallpaper.jpg',imageMobile:"",title:'Nombre',alt:'Descipción Alt',type:'slider-main'},
 }
 const slider = createSlice({
     name:"sliderMain",
@@ -57,7 +56,7 @@ const slider = createSlice({
             });
             cont++
     
-            newArray.push({id:cont,imageDesk:"",imageMobile:"",alt:`Slider-${cont}`,title:`Slider-${cont}`})
+            newArray.push({id:cont,imageDesk:"",imageMobile:"",alt:`Slider-${cont}`,title:`Slider-${cont}`,type:`slider-main`})
             state.data = newArray
         },
         removeSlider:(state,id)=>{

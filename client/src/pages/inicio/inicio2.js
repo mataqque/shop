@@ -2,12 +2,19 @@ import React, { Component } from 'react'
 import './inicio2.scss' 
 import Slider from "react-slick";
 import { connect } from 'react-redux';
-import { increment } from '../../data/components/counter';
+import axios from 'axios';
 class Inicio2 extends Component {
     constructor(props){
         super(props)
-        console.log(this.props)
         this.state = {
+            sliders:[{
+                alt: "Slider-5",
+                id: 5
+                ,imageDesk: "/images/863822411-istockphoto-1204610564-1024x1024.jpg"
+                ,imageMobile: "/images/92000368-754606.jpg"
+                ,title: "Slider-5"
+                ,type: "slider-main"
+            }],
             settings:{
                 dots: true,
                 infinite: true,
@@ -19,8 +26,14 @@ class Inicio2 extends Component {
                 autoplaySpeed: 4000,
                 cssEase: "linear"
             },
-            
         }
+    }
+    componentDidMount(){
+        axios.get('/api/get-slider-main').then(this.getSliderMain)
+    }
+    getSliderMain =(response)=>{
+        console.log(response.data)
+        this.setState({sliders:response.data})
     }
     render() {
         return (
@@ -37,19 +50,16 @@ class Inicio2 extends Component {
                         </div>
                     </div>
                     <div className='content-slider-inicio d-grid '>
-                        <div className='content-img'>
-                            <img className='img' src={require('../../assets/images/inicio/slider/slider-1.png').default} ></img>
-                        </div>
-                        <div className='content-img'>
-                            <img className='img' src={require('../../assets/images/inicio/slider/slider-1.png').default} ></img>
-                        </div>
-                        <div className='content-img'>
-                            <img className='img' src={require('../../assets/images/inicio/slider/slider-1.png').default} ></img>
-                        </div>
-                        <div className='content-img'>
-                            <img className='img' src={require('../../assets/images/inicio/slider/slider-1.png').default} ></img>
-                        </div>
-                        
+                        {
+                            this.state.sliders.map((item,index)=>{
+                                return(
+                                <div className='content-img' >
+                                    <img className='img' src={item.imageDesk} ></img>
+                                </div>
+                                )
+                            })
+                        }
+                       
                         
                         {/* <Slider {...this.state.settings}>
                             {
@@ -64,17 +74,6 @@ class Inicio2 extends Component {
                         </Slider> */}
                     </div>
                 </div>
-                <div className='--load d-flex'>
-                    <div className='radius b-primary c-white px-1 pointer' onClick={()=>{this.props.increment()}}>
-                        CHANGE AGE
-                    </div>
-                    <div className='radius b-primary c-white px-1 '>
-                        EDAD {this.props.user.age}
-                    </div>
-                    <div className='radius b-primary c-white px-1 '>
-                        COUNT {this.props.count.count}
-                    </div>
-                </div>
             </section>
         )
     }
@@ -82,8 +81,6 @@ class Inicio2 extends Component {
 const mapStateProps = (state)=>{
     return({
         value: state.sliderMain,
-        user:state.user,
-        count:state.counter
     })
 }
-export default connect(mapStateProps,{increment})(Inicio2)
+export default connect(mapStateProps,null)(Inicio2)

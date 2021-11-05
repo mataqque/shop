@@ -12,11 +12,12 @@ export default class Galeria extends Component {
     }
     componentDidMount(){
         axios.post('/api/all-images').then(this.response)
+        
     }
     response = (response) =>{ 
-        console.log(response.data)
         this.setState({images:response.data})
     }
+    
     onChange = (data) =>{
         var formData = new FormData();
         formData.append("archivo",data.target.files[0]);

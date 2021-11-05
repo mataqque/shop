@@ -30,7 +30,5 @@ module.exports = {
     parse(token){
         let decoded = jwt.verify(token,'secret', { algorithm: 'HS256' })
         return JSON.parse(JSON.parse(decoded.data))
-        // return JSON.parse(jwt.verify(token,'secret', { algorithm: 'HS256' }))
-        // return JSON.parse(JSON.parse(jwt.verify(token.token, 'secret', { algorithm: 'HS256' })))
     }
 }

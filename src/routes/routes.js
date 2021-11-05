@@ -14,6 +14,7 @@ const path = require('path');
 const fs = require('fs')
 const pathDestination = '../public/images';
 const constantAnswer = require("../commands/constantAnswer.js");
+const RegisterStrategy = require("../lib/passport")
 
 const storage = multer.diskStorage({
     destination: async function (req, file, cb) {
@@ -84,9 +85,10 @@ router.post("/checkUser",async (req,res)=>{
     }
 });
 
-router.post("/registro",passport.authenticate('register', {
-    passReqToCallback:true,
-}));
+// router.post("/registro",RegisterStrategy.RegisterStrategy);
+router.post("/registro",passport.authenticate('register',{passReqToCallback:true}),(req,res)=>{
+    console.log(req.body)
+});
 
 router.post("/signout",(req,res)=>{
     let add = Manage_token.parse(req.body.token);
@@ -127,7 +129,7 @@ router.post('/add-slider',async (req,respond)=>{
         }else{
             var result = req.body.map((e)=>Object.values(e));
             await pool.query( "DELETE FROM slider;");
-            let newFile = await pool.query(`INSERT INTO slider(id,imageDesk,imageMobile,alt,title) VALUES ?;`,[result],(err, res) => {
+            let newFile = await pool.query(`INSERT INTO slider(id,imageDesk,imageMobile,alt,title,type) VALUES ?;`,[result],(err, res) => {
                 if(err) throw err;
                 respond.send('UPDATE DATA')
             })
@@ -139,6 +141,11 @@ router.post('/add-slider',async (req,respond)=>{
 
 router.get('/get-sliders',async (req,res)=>{
     const allSlides = await pool.query('SELECT * FROM slider');
+    res.send(allSlides)
+})  
+
+router.get('/get-slider-main',async (req,res)=>{
+    const allSlides = await pool.query('SELECT * FROM slider WHERE type = "slider-main";');
     res.send(allSlides)
 })  
 module.exports = router

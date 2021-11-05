@@ -23,10 +23,6 @@ class LoginRegister extends Component {
             }
         }
     }
-    componentDidMount(){
-        console.log("register:",this.props)
-        
-    }
     initValues = {
         username:"",
         phone:"",
@@ -36,7 +32,7 @@ class LoginRegister extends Component {
     }
     submitForm(values){
         axios.post("/api/registro",values).then(function (response) {
-            console.log(JSON.parse(response.data.data))
+            alert(response.data)
         });
     }
     render() {
@@ -49,7 +45,6 @@ class LoginRegister extends Component {
                 <FormContainer initialValues={this.initValues} validationSchema={RegisterValidatonSchema} onSubmit={this.submitForm}>
                     {
                         form => {const {errors, handleSubmit, isSubmiting } = form;
-                        console.log(errors)
                             return(
                                 <form className="formulario-register" onSubmit={handleSubmit}>
                                     <h2>REGISTRO</h2>
