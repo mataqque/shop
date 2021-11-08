@@ -3,7 +3,7 @@ import { insertImage } from "../galleryModal";
 
 const initialState = {
     data:[],
-    sectionEdit:{id:'',imageDesk:'/images/947119258-Astronaut-Wallpaper.jpg',imageMobile:"",title:'Nombre',alt:'Descipción Alt',type:'slider-main'},
+    sectionEdit:{id:'',imageDesk:'',imageMobile:"",title:'Nombre',alt:'Descipción Alt',type:'slider-main'},
 }
 const slider = createSlice({
     name:"sliderMain",
@@ -32,6 +32,23 @@ const slider = createSlice({
             let edit = state.sectionEdit;
             console.log(image.payload)
             edit[image.payload.description] = `/images/${image.payload.image.filename}`
+            
+            let dataSlider = state.data.map((e)=>{
+                if(e.id == state.sectionEdit.id){
+                    return e = edit
+                }else {
+                    return e
+                }
+            })
+            
+            state.sectionEdit = edit
+            state.data = dataSlider
+        },
+        addImageSelectedDropzone:(state,image)=>{
+            console.log(image.payload)
+            let edit = state.sectionEdit;
+            
+            edit[image.payload.description] = `${image.payload.image}`
             
             let dataSlider = state.data.map((e)=>{
                 if(e.id == state.sectionEdit.id){
@@ -79,5 +96,10 @@ const slider = createSlice({
     }
 })
 
-export const { insertImageSlider,setEditSlider,onchange,getData,addSlider,removeSlider,onSortItems,addImageSelected} = slider.actions
+export const { 
+    insertImageSlider,setEditSlider,onchange,
+    getData,addSlider,removeSlider,onSortItems,
+    addImageSelected,addImageSelectedDropzone,
+
+} = slider.actions
 export default slider.reducer

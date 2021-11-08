@@ -21,7 +21,8 @@ passport.use('register', new LocalStrategy({
             username:username,
             phone,
             email,
-            password,   
+            password,
+            perfil:'/profile.jpg'
         };
         let checkUser = await pool.query(`SELECT * FROM users WHERE ( email = ? );`,email)
         try {
@@ -36,11 +37,8 @@ passport.use('register', new LocalStrategy({
                 return done(null, newUser);
             }
         }catch(err) {
+            console.log(err)
             req.res.send('error')
         }
     }
 ));
-module.exports = {
-    RegisterStrategy:(req,res,next)=>{
-    }
-}

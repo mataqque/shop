@@ -1,10 +1,10 @@
-import React, { Component, useCallback} from 'react';
+import React, { Component, useCallback, useState} from 'react';
 import SortableContent from '../../component/UI/Sortable/Sortable';
 import { connect } from 'react-redux';
-import {useDropzone} from 'react-dropzone';
+import Dropzone from 'react-dropzone';
 import { showGallery} from '../../data/galleryModal';
 import { setEditSlider, insertImageSlider} from '../../data/components/sliderMain';
-import { onchange,getData,addSlider,removeSlider,onSortItems,addImageSelected} from '../../data/components/sliderMain';
+import { onchange,getData,addSlider,removeSlider,onSortItems,addImageSelected,addImageSelectedDropzone} from '../../data/components/sliderMain';
 import axios from 'axios';
 class SliderMain extends Component {
     constructor(props){
@@ -88,11 +88,7 @@ class SliderMain extends Component {
                                     <div className='upload-image-desktop'>
                                         <span className='title-upload'>Imagen Desktop</span>
                                         {
-                                            this.props.slider.sectionEdit.imageDesk.length > 5 ?
-                                            <div className='content-img'>
-                                                <img className='img' src={this.props.slider.sectionEdit.imageDesk} ></img> 
-                                            </div> :
-                                            <MyDropzone></MyDropzone>
+                                            <MyDropZone data={{item:this.props.slider.sectionEdit,typeImage:'imageDesk'}} ></MyDropZone>
                                         }
                                         <div className='select_to_gallery bcolor1 c-white radius' 
                                             onClick={()=>{this.props.showGallery({action:this.getImage,description:'imageDesk'})}}>
@@ -102,11 +98,7 @@ class SliderMain extends Component {
                                     <div className='upload-image-movil'>
                                         <span className='title-upload'>Imagen Movil</span>
                                         {
-                                            this.props.slider.sectionEdit.imageMobile.length > 5 ?
-                                            <div className='content-img'>
-                                                <img className='img' src={this.props.slider.sectionEdit.imageMobile} ></img> 
-                                            </div> :
-                                            <MyDropzone></MyDropzone>
+                                            <MyDropZone data={{item:this.props.slider.sectionEdit,typeImage:'imageMobile'}}></MyDropZone>
                                         }
                                         <div className='select_to_gallery bcolor1 c-white radius'
                                              onClick={()=>{this.props.showGallery({action:this.getImage,description:'imageMobile'})}}
@@ -141,39 +133,59 @@ export default connect(MapStateProps,{
     addImageSelected
 })(SliderMain);
 
-function MyDropzone() {
-    const onDrop = useCallback((acceptedFiles) => {
-        acceptedFiles.forEach((file) => {
-          const reader = new FileReader()
-    
-          reader.onabort = () => console.log('file reading was aborted')
-          reader.onerror = () => console.log('file reading has failed')
-          reader.onload = () => {
-          // Do whatever you want with the file contents
-            const binaryStr = reader.result
-            console.log(acceptedFiles)
-          }
-          reader.readAsArrayBuffer(file)
-        })
-        
-      }, [])
-    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
-
-    return (
-      <div {...getRootProps()}>
-        <input {...getInputProps()} />
-        {/* {
-          isDragActive ?
-            <p>Drop the files here ...</p> :
-            <p>Drag 'n' drop some files here, or click to select files</p>
-        } */}
-         <div className={`content-img ${isDragActive ? 'active' : ''}`}>
-            <div className='icon upload mask'>
-            </div>
-            <span className='message'>
-                <strong> Arrastra tu imagen</ strong>o importalo desde el explorador de archivos
-            </span>
-        </div>
-      </div>
-    )
+class MyDropzone extends Component{
+    constructor(props){
+        super(props)
+          this.state = {
+            files: [],
+            image: '',
+          };
+    }
+    getImage =(data)=>{
+        let time = setInterval(() => {
+            this.props.addImageSelected(data)
+            clearInterval(time)
+        }, 400);
+    }
+    onDrop = (file) => {
+        console.log(file[0])
+        let reader = new FileReader();
+        reader.readAsText(file[0]);
+        reader.onload = () => {
+            // this.setState({image: URL.createObjectURL(file[0])})
+            let image = URL.createObjectURL(file[0])
+            this.props.addImageSelectedDropzone({description:this.props.data.typeImage,image:image})
+        }
+    }
+    render(){
+        return (
+            <Dropzone onDrop={this.onDrop}>
+                {
+                    ({getRootProps, getInputProps, isDragActive})=>(
+                        <div {...getRootProps()}>
+                            <input {...getInputProps()} />
+                            <div className={`content-img ${isDragActive ? 'active' : ''}`}>
+                                <div className='icon upload mask'>
+                                </div>
+                                <span className='message'>
+                                    <strong> Arrastra tu imagen</ strong>o importalo desde el explorador de archivos
+                                </span>
+                                {
+                                    this.props.slider.sectionEdit[this.props.data.typeImage].length == 0 ? null : 
+                                    <img className='img-upload'  src={this.props.slider.sectionEdit[this.props.data.typeImage]}></img>
+                                }
+                            </div>
+                        </div>
+                    )
+                }
+            </Dropzone>
+        )
+    }
 };
+
+const MapStatePropsDropzone = (state) =>{
+    return({
+        slider:state.slider
+    })
+};
+const MyDropZone = connect(MapStatePropsDropzone,{onchange,addImageSelected,showGallery,addImageSelectedDropzone})(MyDropzone)

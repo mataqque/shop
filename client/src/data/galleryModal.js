@@ -21,6 +21,7 @@ const ModalGallery = createSlice({
             state.showModalGallery = false
             state.SLICE_SLIDER.action({image:image.payload,description:state.SLICE_SLIDER.description})
         },
+        
     },
     
 })

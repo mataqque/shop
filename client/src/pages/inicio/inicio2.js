@@ -59,19 +59,6 @@ class Inicio2 extends Component {
                                 )
                             })
                         }
-                       
-                        
-                        {/* <Slider {...this.state.settings}>
-                            {
-                                this.props.value.slider.map((item,index)=>{
-                                    return(
-                                        <div className='content-img' key={'sliderMain-'+index}>
-                                            <img className='' src={item.img} ></img>
-                                        </div>
-                                    )
-                                })
-                            }
-                        </Slider> */}
                     </div>
                 </div>
             </section>

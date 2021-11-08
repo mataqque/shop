@@ -46,7 +46,7 @@ router.post("/login",commands.chunkValidlogin, async (req,res)=>{
         await pool.query(`SELECT * FROM users WHERE ( email = ? );`,[email],async (err, results, field)=>{
             try{
                 if(err){
-                    res.send(err)
+                    res.status(401)
                 }
                 if(results.length > 0){
                     const match = await bcrypt.compare(password, results[0].password);

@@ -16,7 +16,6 @@ class Title extends React.PureComponent{
 }
 class PublicRoutes extends Component {
     componentDidMount(){
-        console.log("props.inicio:",this.props)
         this.props.showNav()
     }
     render() {

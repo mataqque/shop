@@ -163,6 +163,9 @@
             }
             .content-response{
                 .error{
+                    &::after,&::before{
+                        display: none!important;
+                    }
                     &.show{
                         position: relative;
                         font-size: .7rem;
