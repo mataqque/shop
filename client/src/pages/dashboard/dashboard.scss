@@ -114,7 +114,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding-bottom: 3%;
             background: #0e1829;
         }
         .envolves{
@@ -492,6 +491,7 @@
             border-top: 1px solid rgb(219, 219, 219);
             .btn{
                 font-size: .9rem;
+                cursor: pointer;
             }
         }
         .content-all-images{
@@ -678,7 +678,9 @@
         .content-option-images{
             display: flex;
             align-items: flex-start;
-            flex-direction: column;
+            justify-content: space-between;
+            padding: 1rem;
+            flex-wrap: wrap;
             padding: 1rem;
             &.content-btn-button{
                 z-index: 3;
@@ -705,9 +707,43 @@
         padding: 1rem;
         .flex-column{
             margin-bottom: 1rem;
+            width: 48%;
         }
         .title-option-image{
             font-size: .8rem;
+            margin-bottom: .5rem;
+        }
+        .content-icon{
+            width: 10rem;
+            height: 8rem;
+            .content-img{
+                height: 8rem;
+                // min-height: 10rem;
+                border-style: dotted;
+                padding: 1rem;
+                border-radius: 0.5rem;
+                position: relative;
+                img{
+                    position: absolute;
+                    height: 100%;
+                    width: 100%;
+                    top: 0;
+                    left: 0;
+                    object-fit: cover;
+                }
+            }
+            .message{
+                font-size: .8rem;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
+        }
+        .select_to_gallery{
+            width: 10rem;
+
         }
         input{
             border: 0;

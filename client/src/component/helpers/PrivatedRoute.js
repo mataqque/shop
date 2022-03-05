@@ -1,7 +1,6 @@
 import { Component } from "react"
 import { connect } from "react-redux"
 import { Route } from "react-router"
-import Protected from "../../pages/protected/protected"
 import {curremtUser} from "../../data/userStore"
 import { Redirect } from "react-router"
 import Icon from "../UI/Icon"
@@ -27,21 +26,20 @@ class PrivateRoute extends Component{
         }
     }
     componentDidMount(){
-        // console.log({props:this.props})
         this.props.hideNav()
-        axios.post("/api/checkUser",{token:localStorage.getItem('token')}).then((res)=>{
+        axios.post("/auth/validate",{token:localStorage.getItem('token')}).then((res)=>{
             let time = setInterval(() => {
                 if(res.data.token == false){
                     this.setState({check_user:res.data.token})
                 }else{
+                    console.log(this.props.children)
                     this.setState({shoWcomponent:this.props.children})
                 }
                 clearInterval(time)
             }, 3000);
         }); 
-
     }
-    render(){
+    render(){   
         return(
             <Route exact path={this.props.path} render={()=>{
                 return ( 
@@ -51,7 +49,7 @@ class PrivateRoute extends Component{
                             this.state.shoWcomponent == null ? 
                             <div className='loader'>
                                 <div className='content-loader'>
-                                    <Icon properties={this.state.properties} class="loader-protected-icon"></Icon>   
+                                    <Icon properties={this.state.properties} className="loader-protected-icon"></Icon>   
                                 </div>
                             </div> : null
                         }

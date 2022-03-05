@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { getToken,deleteToken, setToken } from '../../data/userStore';
 import MainDash from './mainDash';
 import GaleriaModal from './galeriaModal';
+
 class Dashboard extends Component {
     constructor(props){
         super(props)
@@ -39,10 +40,18 @@ class Dashboard extends Component {
     subHandleChangeSection = (active, upComponent) => {
         this.setState({activeSection:active,component:upComponent})
     }
+    componentDidMount(){
+        try {
+            document.querySelector(".items.contacto").style = 'display:none'
+            document.querySelector(".phone").style = 'display:none'
+        } catch (err) {
+            console.log(err)
+        }
+    }
     logOut(){
         localStorage.removeItem('token')  
         this.props.history.push("/login")
-    }
+    } 
     render() {
         return (
             <main className="dashboard" key={'dash'}>
@@ -83,7 +92,6 @@ class Dashboard extends Component {
                                                     body={body}
                                                     changeSection={this.changeSection}
                                                     subHandleChangeSection= {this.subHandleChangeSection}
-                                                    key={'sidebar-'+index}
                                                 />
                                             )
                                         })
@@ -133,10 +141,10 @@ class SectionSidebar extends Component{
                 </div>
                 <div className='c-sidebar-nav-item'>
                     {
-                        this.props.body.sections.map((section)=>{
+                        this.props.body.sections.map((section,index)=>{
                             if(section.subSection == 0 ){
                                 return(
-                                    <div className={`c-sidebar-nav-title ${this.props.expanded == section.index ? 'active' : ''}`} onClick={()=>{this.props.changeSection(section.index,section.component)}}>
+                                    <div className={`c-sidebar-nav-title ${this.props.expanded == section.index ? 'active' : ''}`} onClick={()=>{this.props.changeSection(section.index,section.component)}} key={'section-'+index}>
                                         <i className={section.icon}></i>
                                         <span className='span-title'>{section.title}</span>
                                         <i className="fas fa-chevron-right"></i>
@@ -144,7 +152,7 @@ class SectionSidebar extends Component{
                                 )
                             }else{
                                 return(
-                                <Accordion expanded={this.props.expanded === section.index} square onChange={this.props.handleChange(section.index,section.component)}>
+                                <Accordion expanded={this.props.expanded === section.index} square onChange={this.props.handleChange(section.index,section.component)} key={'section-'+index}>
                                     <AccordionSummary aria-controls="panel-content">
                                         <Typography>
                                             <label className={`c-sidebar-nav-title ${this.props.expanded == section.index ? 'active-nav' : ''}`}>
@@ -155,11 +163,11 @@ class SectionSidebar extends Component{
                                         </Typography>
                                     </AccordionSummary>
                                     {
-                                        section.subSection.map((item)=>{
+                                        section.subSection.map((item,index)=>{
                                             return(
-                                            <AccordionDetails>
+                                            <AccordionDetails key={'subSection-'+index}>
                                                 <Typography>
-                                                    <label className='c-sidebar-nav-title subsidebar' onClick={()=>{this.props.subHandleChangeSection(item.index,item.component)}}>
+                                                    <label className='c-sidebar-nav-title subsidebar' onClick={()=>{this.props.subHandleChangeSection(item.index,item.component)}} key={'acordion-'+index}>
                                                         <i className={item.icon}></i>
                                                         <span className='span-title'>{item.title}</span>
                                                     </label>

@@ -59,21 +59,43 @@ const initialState = {
                 subSection:[{
                         icon:"fas fa-circle",
                         title:'Slider Principal',
-                        component: <SliderMain />,
+                        component: <SliderMain type={'slider-main'}/>,
                     },
                     {
                         icon:"fas fa-circle",
                         title:'Slider Interiores',
-                        component:null,
+                        component: <SliderMain type={'slider-interiores'}/>,
                     },
                     {
                         icon:"fas fa-circle",
                         title:'Slider Áreas comunes',
+                        component:<SliderMain type={'slider-areas-comunes'}/>,
+                    },
+                    {
+                        icon:"fas fa-circle",
+                        title:'Slider tipologias',
+                        component:<SliderMain type={'slider-tipologias'}/>,
+                    },
+                    {
+                        icon:"fas fa-circle",
+                        title:'Slider Sitios',
+                        component:<SliderMain type={'slider-sitios'}/>,
+                    },
+                    
+                ]
+            },
+            {
+                icon:"fas fa-gift",
+                title:'Promociones',
+                index:7,
+                subSection:[{
+                        icon:"fas fa-circle",
+                        title:'Formulario de inicio',
                         component:null,
                     },
                     {
                         icon:"fas fa-circle",
-                        title:'Avance de obra',
+                        title:'Formulario template',
                         component:null,
                     },
                 ]
@@ -81,7 +103,7 @@ const initialState = {
             {
                 icon:"fas fa-table",
                 title:'Form',
-                index:6,
+                index:8,
                 subSection:[{
                         icon:"fas fa-circle",
                         title:'Formulario de inicio',
@@ -97,7 +119,7 @@ const initialState = {
             {
                 icon:"fas fa-columns",
                 title:'Atributos',
-                index:7,
+                index:9,
                 subSection:[{
                         icon:"fas fa-circle",
                         title:'Formulario Inicio',
@@ -118,7 +140,7 @@ const initialState = {
             {
                 icon:"fab fa-whatsapp",
                 title:'Whatsapp',
-                index:8,
+                index:10,
                 subSection:[{
                         icon:"fas fa-circle",
                         title:'Float Whatsapp',

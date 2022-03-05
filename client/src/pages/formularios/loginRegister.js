@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { RegisterValidatonSchema } from '../../component/common/constraints/ValidationSchema';
 import { FormContainer } from '../../component/common/formik';
 import { checkableBoolProps, setInputProps } from '../../component/common/markups/Form';
 import { active } from '../../data/modalStore';
 import Icon from '../../component/UI/Icon';
 import './login.scss'
+import ApiService from '../../component/actions/services/ApiService';
+
 import axios from 'axios';
+import { RegisterValidatonSchema } from '../../component/common/constraints/ValidationSchema';
 const iconForm = require("../../assets/icons/lottie/lottie-user-profile.json");
-class LoginRegister extends Component {
+
+class LoginRegister extends Component{
     constructor(props){
         super(props)
+        this._api = new ApiService()
         this.state = {
             properties:{
                 loop:true,
@@ -30,8 +34,8 @@ class LoginRegister extends Component {
         password:"",
         repassword:""
     }
-    submitForm(values){
-        axios.post("/api/registro",values).then(function (response) {
+    submitForm =(values)=>{
+        this._api.post("/auth/registro",values).then(function (response) {
             alert(response.data)
         });
     }
@@ -40,11 +44,11 @@ class LoginRegister extends Component {
         <main className="login">
             <div className='content-form'>
                 <div className='content-img'>
-                    <Icon properties={this.state.properties} class={"icon-content-formulario"}></Icon>
+                    <Icon properties={this.state.properties} className={"icon-content-formulario"}></Icon>
                 </div>
                 <FormContainer initialValues={this.initValues} validationSchema={RegisterValidatonSchema} onSubmit={this.submitForm}>
                     {
-                        form => {const {errors, handleSubmit, isSubmiting } = form;
+                        (form) => {const {errors, handleSubmit, isSubmiting } = form;
                             return(
                                 <form className="formulario-register" onSubmit={handleSubmit}>
                                     <h2>REGISTRO</h2>

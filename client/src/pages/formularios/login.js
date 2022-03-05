@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
-import { useHistory, withRouter } from 'react-router';
+
 import axios from 'axios'
-import { Link } from 'react-router-dom';
+import { Link ,withRouter} from 'react-router-dom';
 import Icon from '../../component/UI/Icon';
 import './login.scss'
 import { FormContainer } from '../../component/common/formik';
-import { FAQContactValidatonSchema } from '../../component/common/constraints/ValidationSchema';
 import { setInputProps ,checkableBoolProps } from '../../component/common/markups/Form';
-import { connect } from 'react-redux';
+import ApiService from '../../component/actions/services/ApiService';
+import { FAQContactValidatonSchema } from '../../component/common/constraints/ValidationSchema';
 const iconForm = require("../../assets/icons/lottie/lottie-user-profile.json");
 const iconLoader = require("../../assets/icons/lottie/loader.json");
 
-class Login extends Component {
+class Login extends Component{
     constructor(props){
         super(props)
-        // this.sendAgain = this.sendAgain.bind(this)
+        this._api = new ApiService()
         this.state = {
             sendForm:"Enviar",
             sendIndex:1,
@@ -44,19 +44,21 @@ class Login extends Component {
         password:"",
         remember: true,
     }
-    submitForm = (values, { setSubmitting, resetForm }) =>{
+    submitForm = (values) =>{
         this.sendAgain()
-        axios.post("/api/login",values).then(this.response);
+        this._api.post("/auth/login",values).then(this.response);
     }
     response = (response) =>{
-        console.log("datass",response.data)
+        console.log('data',response);
         if(response.data.type){
-            localStorage.setItem("token",response.data.token)
+            localStorage.setItem("token",response.data.token);
+            console.log(this.props)
             this.props.history.push("/dashboard")
         }
         if(response.data.status == 401){
             this.setState({messageError:'Email or password invalid'})
         }
+        
     }
     sendAgain = () =>{
         this.setState({sendAgain:true})
@@ -65,16 +67,19 @@ class Login extends Component {
             clearInterval(returnTry)
         }, 2000);
     }
+    componentDidMount(){
+
+    }
     render() {
     return (
         <main className="login">
             <div className='content-form'>
                 <div className='content-img'>
-                    <Icon properties={this.state.properties} class={"icon-content-formulario"}></Icon>
+                    <Icon properties={this.state.properties} className={"icon-content-formulario"}></Icon>
                 </div>
                 <FormContainer initialValues={this.initialValues} validationSchema={FAQContactValidatonSchema} onSubmit={this.submitForm}>
                     {
-                        form => {const {errors,handleSubmit, isSubmitting} = form;
+                        (form) => {const {errors,handleSubmit, isSubmitting} = form;
                         
                         return(
                             
@@ -92,12 +97,7 @@ class Login extends Component {
                                 </div>
                             </div>
                             <div className='content-response'>
-                                <span className='c-red message-error'>{}</span>
-                                {
-                                    this.state.sendAgain ? <Icon properties={this.state.propertiesLoader} class={'lottie_loader'}></Icon> 
-                                    : <span className={`error ${this.state.messageError != null ? 'show' : ''}`}>{this.state.messageError}</span>
-                                }
-                                
+                                <span className='c-red message-error'>{this.state.messageError ? this.state.messageError : ''}</span>
                             </div>
                             <button type="submit" className={`btn-submit ${this.state.sendAgain ? 'disabled':''}`} disabled={this.state.sendAgain} >
                                 {this.state.sendForm}
@@ -114,5 +114,6 @@ class Login extends Component {
     );
   }
 }
+
 
 export default withRouter(Login)

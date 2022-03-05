@@ -6,36 +6,51 @@ import { showGallery} from '../../data/galleryModal';
 import { setEditSlider, insertImageSlider} from '../../data/components/sliderMain';
 import { onchange,getData,addSlider,removeSlider,onSortItems,addImageSelected,addImageSelectedDropzone} from '../../data/components/sliderMain';
 import axios from 'axios';
+import ApiService from '../../component/actions/services/ApiService';
 class SliderMain extends Component {
     constructor(props){
         super(props)
+        this._api = new ApiService()
         this.editSlider = this.editSlider.bind(this)
         this.handleSubmitSlider = this.handleSubmitSlider.bind(this)
         this.state = {
-            activeEdit:false,
+            activeEdit:true,
             disabled:false,
         }
     }
+    componentDidUpdate(prevProps){
+        if (this.props.type !== prevProps.type) {
+            console.log('tipo',this.props.type);
+
+            this.getDataSlider()
+        }
+
+    }
     componentDidMount(){
-        axios.get('/api/get-sliders').then(this.getDataSlider)
+        this.getDataSlider()
     }
     
-    getDataSlider =(response)=>{
-        this.props.getData({data:response.data})
-        console.log(response.data)
+    getDataSlider = _ => {
+        this._api.post('/slider/getSliders',{type: this.props.type}).then(({data}) => this.props.getData({data: data}))
     }
+
     editSlider(item){
         this.setState({activeEdit:true})
         this.props.setEditSlider(item)
     }
+
     handleSubmitSlider(){
-        this.setState({disabled:true})
-        axios.post('/api/add-slider',this.props.slider.data).then(this.getResponse)
+        this.setState({disabled:true});
+        
+        this._api.post('/slider/update',{data: this.props.slider.data, type: this.props.type})
+            .then(this.getResponse)
     }
+
     getResponse =(response)=>{
         this.setState({disabled:false})
         alert(response.data)
     }
+
     getImage =(data)=>{
         let time = setInterval(() => {
             this.props.addImageSelected(data)
@@ -63,6 +78,7 @@ class SliderMain extends Component {
                                 removeSlider={this.props.removeSlider}
                                 data={this.props.slider.data}
                                 key={new Date().getTime()}
+                                type={this.props.type}
                             ></SortableContent>
                         </div>
                         <div className='option-sortable-image'>
@@ -78,10 +94,37 @@ class SliderMain extends Component {
                                         ></input>
                                     </div>
                                     <div className='flex-column'>
-                                        <span className='title-option-image'><strong>Descripción del alt-imagen </strong></span>
+                                        <span className='title-option-image'><strong>Atributo alt </strong></span>
                                         <input placeholder={this.props.slider.sectionEdit.alt} value={this.props.slider.sectionEdit.alt}
                                         onChange={(e)=>{this.props.onchange({target:e,title:'alt',item:this.props.slider.sectionEdit})}}
                                         ></input>
+                                    </div>
+                                    <div className='flex-column'>
+                                        <span className='title-option-image'><strong>Link</strong></span>
+                                        <input placeholder={this.props.slider.sectionEdit.link} value={this.props.slider.sectionEdit.link}
+                                        onChange={(e)=>{this.props.onchange({target:e,title:'link',item:this.props.slider.sectionEdit})}}
+                                        ></input>
+                                    </div>
+                                    <div className='flex-column'>
+                                        <span className='title-option-image'><strong>Parrafo</strong></span>
+                                        <input placeholder='Introduce el parrafo' value={this.props.slider.sectionEdit.paragraph}
+                                        onChange={(e)=>{this.props.onchange({target:e,title:'paragraph',item:this.props.slider.sectionEdit})}}
+                                        ></input>
+                                    </div>
+                                    <div className='flex-column '>
+                                        <span className='title-option-image'><strong>Icono</strong></span>
+                                        {
+                                            console.log(this.props.slider.sectionEdit)
+                                        }
+                                        <div className='content-icon'>
+                                        {
+                                            <MyDropZone data={{item:this.props.slider.sectionEdit,typeImage:'icon'}} ></MyDropZone>
+                                        }
+                                        </div>
+                                        <div className='select_to_gallery bcolor1 c-white radius' 
+                                            onClick={()=>{this.props.showGallery({action:this.getImage,description:'icon'})}}>
+                                            Selecciona desde la Galeria
+                                        </div>
                                     </div>
                                 </div>
                                 <div className='upload-images'>

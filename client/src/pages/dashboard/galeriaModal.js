@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux';
 import { closeGallery, insertImage} from '../../data/galleryModal'
+import ApiService from '../../component/actions/services/ApiService';
 
 // import './galeria.scss'
 class GaleriaModal extends Component {
     constructor(props){
         super(props)
         // this.selected = this.selected.bind(this)
+        this._api = new ApiService()
         this.state = {
             images: [],
             selected:[],
@@ -15,19 +17,22 @@ class GaleriaModal extends Component {
         }
     }
     componentDidMount(){
-        axios.post('/api/all-images').then(this.response)
+        this._api.get('/files/get-images').then(this.response)
     }
     response = (response) =>{ 
         this.setState({images:response.data})
     }
+    updateImages=()=>{
+        this._api.get('/files/get-images').then(this.response)
+    }
     onChange = (data) =>{
         var formData = new FormData();
         formData.append("archivo",data.target.files[0]);
-        axios.post('/api/upload', formData, {
+        axios.post('/files/upload', formData, {
             headers: {
             'Content-Type': 'multipart/form-data'
             }
-        });
+        }).then(this.updateImages);
     }
     selected = (image) =>{
         let newArray = this.state.selected
@@ -58,6 +63,9 @@ class GaleriaModal extends Component {
         }
         
         this.setState({selected:newArray,selectedImage:image})
+    }
+    deleteFiles=()=>{
+        this._api.post('/files/delete',this.state.selected).then(this.updateImages);
     }
     render() {
         return (
@@ -107,7 +115,7 @@ class GaleriaModal extends Component {
                                 <i className="fas fa-pen"></i>
                                 <span className='top-font'>Editar</span>
                             </label>
-                            <label className={`add-file b-red ${this.state.selected.length > 0 ? '' : 'opacity'}`}>
+                            <label className={`add-file b-red ${this.state.selected.length > 0 ? '' : 'opacity'}`} onClick={()=>{this.deleteFiles()}}>
                                 <i className="far fa-trash-alt"></i>
                                 <span className='top-font'>Eliminar</span>
                             </label>
@@ -116,24 +124,25 @@ class GaleriaModal extends Component {
                         <div className='__images scroll'>
                             <div className='content-all-images '>
                                 {
-                                    this.state.images.map((image)=>{
+                                    this.state.images.length > 0 ? 
+                                    this.state.images.map((image,index)=>{
                                         return (
-                                            <div className={`content-img-item ${this.state.selected.includes(image.id_file) ? 'active' : ''}`} onClick={()=>{this.selectOneOfAll(image)}}>
+                                            <div className={`content-img-item ${this.state.selected.includes(image.id_file) ? 'active' : ''}`} onClick={()=>{this.selectOneOfAll(image)}} key={'all-images-'+index}>
                                                 <img className='img' src={`/images/${image.filename}`} ></img>
                                                 <div className='check'>
                                                     <i className="fas fa-check"></i>
                                                 </div>
                                             </div>
                                         )
-                                    })
+                                    }) : null
                                 }
                             </div>
                         </div>
                         <div className='insert__image'>
-                                <div className='btn radius bcolor1 c-white cancel px-1 mr-1 py--5 pointer' onClick={()=>{this.props.closeGallery()}}>
+                                <div className='btn radius bcolor1 c-white cancel px-1 mr-1 py--5' onClick={()=>{this.props.closeGallery()}}>
                                     CANCELAR
                                 </div>
-                                <div className='btn radius bcolor1 c-white insert px-1 py--5 pointer' onClick={()=>{this.props.insertImage(this.state.selectedImage)}}>
+                                <div className='btn radius bcolor1 c-white insert px-1 py--5 ' onClick={()=>{this.props.insertImage(this.state.selectedImage)}}>
                                     INSERTAR
                                 </div>
                         </div>
