@@ -17,26 +17,25 @@ export class filesController{
                 size: size,
                 path: path,
             }
-            // file.filename = 'compress-'+file.filename; 
-            // const newFile = await pool.query('INSERT INTO files ( filename, coding, mimetype, destination, size, path) VALUES (?,?,?,?,?,?) ', Object.values(file));
-            // console.log(newFile)
+            await sharp(pathRoute.join(__dirname,`../public/images/${file.filename}`))
+            .resize({width:1800,withoutEnlargement: true})
+            .webp({quality: 80,force: false})
+            .jpeg({quality: 80, compressionLevel: 8, progressive: true, force: false})
+            .png({quality: 80, progressive: true, force: false })
+            .toFile(pathRoute.join(__dirname,`../public/images/compress-${file.filename}`), function(err:any) {
+                if(err){
+                    console.log(err)
+                }
+            }).toBuffer()
+            .then((err:any,inf:any) => { 
+                fs.unlinkSync(pathRoute.join(__dirname,`../public/images/${file.filename}`))
+            })
+
+            file.filename = 'compress-'+file.filename; 
+
+            const newFile = await pool.query('INSERT INTO files SET ? ',file);
+            res.send({newFile:newFile})
             
-            // await sharp(pathRoute.join(__dirname,`../public/images/${file.filename}`))
-            // .resize({width:1800,withoutEnlargement: true})
-            // .webp({quality: 80,force: false})
-            // .jpeg({quality: 80, compressionLevel: 8, progressive: true, force: false})
-            // .png({quality: 80, progressive: true, force: false })
-            // .toFile(pathRoute.join(__dirname,`../public/images/compress-${file.filename}`), function(err:any) {
-            //     if(err){
-            //         console.log(err)
-            //     }
-            // }).toBuffer()
-            // .then((err:any,inf:any) => { 
-            //     fs.unlinkSync(pathRoute.join(__dirname,`../public/images/${file.filename}`))
-            // })
-    
-            // res.send({newFile:newFile})
-            res.send({newFile:{}})
         }catch(err){
             console.log(err)
             res.send(err)
