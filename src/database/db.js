@@ -1,11 +1,10 @@
 var execsql = require('./execute');
 require('dotenv').config();
-// console.log(process.env.HOST_DATABASE);
 var dbConfig = {
-    host: "localhost",
-    user: "root",
+    host: process.env.HOST_DATABASE,
+    user: process.env.USER_DATABASE,
     port: 3306,
-    password: "",
+    password: process.env.PASSWORD,
 };
 var connected;
 var sqlFile = __dirname + '/db.sql';
