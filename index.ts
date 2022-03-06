@@ -6,7 +6,7 @@ const morgan =  require("morgan")
 const cors = require("cors")
 const path = require("path")
 const favicon = require('express-favicon')
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 4000
 const passport = require('passport')
 import bodyParser from 'body-parser'
 import {policy} from './src/config/helmet'
