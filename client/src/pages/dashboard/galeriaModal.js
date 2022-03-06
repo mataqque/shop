@@ -2,14 +2,12 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux';
 import { closeGallery, insertImage} from '../../data/galleryModal'
-import ApiService from '../../component/actions/services/ApiService';
 
 // import './galeria.scss'
 class GaleriaModal extends Component {
     constructor(props){
         super(props)
         // this.selected = this.selected.bind(this)
-        this._api = new ApiService()
         this.state = {
             images: [],
             selected:[],
@@ -17,13 +15,13 @@ class GaleriaModal extends Component {
         }
     }
     componentDidMount(){
-        this._api.get('/files/get-images').then(this.response)
+        axios.get('/files/get-images').then(this.response)
     }
     response = (response) =>{ 
         this.setState({images:response.data})
     }
     updateImages=()=>{
-        this._api.get('/files/get-images').then(this.response)
+        axios.get('/files/get-images').then(this.response)
     }
     onChange = (data) =>{
         var formData = new FormData();
@@ -65,7 +63,7 @@ class GaleriaModal extends Component {
         this.setState({selected:newArray,selectedImage:image})
     }
     deleteFiles=()=>{
-        this._api.post('/files/delete',this.state.selected).then(this.updateImages);
+        axios.post('/files/delete',this.state.selected).then(this.updateImages);
     }
     render() {
         return (

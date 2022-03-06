@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import ApiService from '../../component/actions/services/ApiService';
-
 // import './galeria.scss'
 export default class Galeria extends Component {
     constructor(props){
         super(props)
-        this._api = new ApiService()
         this.state = {
             images: [],
             selected:[],
@@ -16,7 +13,7 @@ export default class Galeria extends Component {
         this.updateImages()
     }
     updateImages=()=>{
-        this._api.get('/files/get-images').then(this.response)
+        axios.get('/files/get-images').then(this.response)
     }
     response=(response)=>{ 
         this.setState({images:response.data,selected:[]})
@@ -25,7 +22,7 @@ export default class Galeria extends Component {
     onChange = (data) =>{
         var formData = new FormData();
         formData.append("archivo",data.target.files[0]);
-        this._api.post('/files/upload', formData, {
+        axios.post('/files/upload', formData, {
             headers: {
             'Content-Type': 'multipart/form-data'
             }
@@ -47,7 +44,7 @@ export default class Galeria extends Component {
         this.setState({selected:newArray})
     }
     deleteFiles=()=>{
-        this._api.post('/files/delete',this.state.selected).then(this.updateImages);
+        axios.post('/files/delete',this.state.selected).then(this.updateImages);
     }
     handleItemActive = (selected,image)=>{
         let value =  selected.map((e)=>{return e.id_file}).includes(image.id_file)

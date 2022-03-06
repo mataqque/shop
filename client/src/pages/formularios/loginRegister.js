@@ -6,7 +6,6 @@ import { checkableBoolProps, setInputProps } from '../../component/common/markup
 import { active } from '../../data/modalStore';
 import Icon from '../../component/UI/Icon';
 import './login.scss'
-import ApiService from '../../component/actions/services/ApiService';
 
 import axios from 'axios';
 import { RegisterValidatonSchema } from '../../component/common/constraints/ValidationSchema';
@@ -15,7 +14,6 @@ const iconForm = require("../../assets/icons/lottie/lottie-user-profile.json");
 class LoginRegister extends Component{
     constructor(props){
         super(props)
-        this._api = new ApiService()
         this.state = {
             properties:{
                 loop:true,
@@ -35,7 +33,7 @@ class LoginRegister extends Component{
         repassword:""
     }
     submitForm =(values)=>{
-        this._api.post("/auth/registro",values).then(function (response) {
+        axios.post("/auth/registro",values).then(function (response) {
             alert(response.data)
         });
     }

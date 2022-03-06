@@ -6,11 +6,9 @@ import { showGallery} from '../../data/galleryModal';
 import { setEditSlider, insertImageSlider} from '../../data/components/sliderMain';
 import { onchange,getData,addSlider,removeSlider,onSortItems,addImageSelected,addImageSelectedDropzone} from '../../data/components/sliderMain';
 import axios from 'axios';
-import ApiService from '../../component/actions/services/ApiService';
 class SliderMain extends Component {
     constructor(props){
         super(props)
-        this._api = new ApiService()
         this.editSlider = this.editSlider.bind(this)
         this.handleSubmitSlider = this.handleSubmitSlider.bind(this)
         this.state = {
@@ -31,7 +29,7 @@ class SliderMain extends Component {
     }
     
     getDataSlider = _ => {
-        this._api.post('/slider/getSliders',{type: this.props.type}).then(({data}) => this.props.getData({data: data}))
+        axios.post('/slider/getSliders',{type: this.props.type}).then(({data}) => this.props.getData({data: data}))
     }
 
     editSlider(item){
@@ -42,7 +40,7 @@ class SliderMain extends Component {
     handleSubmitSlider(){
         this.setState({disabled:true});
         
-        this._api.post('/slider/update',{data: this.props.slider.data, type: this.props.type})
+        axios.post('/slider/update',{data: this.props.slider.data, type: this.props.type})
             .then(this.getResponse)
     }
 

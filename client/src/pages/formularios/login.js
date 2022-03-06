@@ -6,7 +6,6 @@ import Icon from '../../component/UI/Icon';
 import './login.scss'
 import { FormContainer } from '../../component/common/formik';
 import { setInputProps ,checkableBoolProps } from '../../component/common/markups/Form';
-import ApiService from '../../component/actions/services/ApiService';
 import { FAQContactValidatonSchema } from '../../component/common/constraints/ValidationSchema';
 const iconForm = require("../../assets/icons/lottie/lottie-user-profile.json");
 const iconLoader = require("../../assets/icons/lottie/loader.json");
@@ -14,7 +13,6 @@ const iconLoader = require("../../assets/icons/lottie/loader.json");
 class Login extends Component{
     constructor(props){
         super(props)
-        this._api = new ApiService()
         this.state = {
             sendForm:"Enviar",
             sendIndex:1,
@@ -46,7 +44,7 @@ class Login extends Component{
     }
     submitForm = (values) =>{
         this.sendAgain()
-        this._api.post("/auth/login",values).then(this.response);
+        axios.post("/auth/login",values).then(this.response);
     }
     response = (response) =>{
         console.log('data',response);
