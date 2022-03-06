@@ -23,6 +23,7 @@
         position: relative;
         border-radius: .5rem;
         height: 33rem;
+        width: 50rem;
         overflow: hidden;
         @media(max-width:1400px){
             height: 29rem;
@@ -60,6 +61,7 @@
         .formulario,.formulario-register{
             height: 100%;
             width: 20rem;
+            min-width: 20rem;
             display: flex;
             flex-direction: column;
             align-items: center;
